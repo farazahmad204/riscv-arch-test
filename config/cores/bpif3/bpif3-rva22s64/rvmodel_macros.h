@@ -144,4 +144,15 @@ tohost:                                  \
 #define RVMODEL_SET_SSW_INT(_R1, _R2)
 #define RVMODEL_CLR_SSW_INT(_R1, _R2)
 
+##### Sscofpmf #####
+
+// Counter and event for the Sscofpmf tests (required by ACT act4 since the Sscofpmf suites).
+// SpacemiT X60 (K1): event 0x06 counts loads; source: the BPI-F3 device tree's riscv,event-to-mhpmevent maps the SBI L1D read-access event (0x10000) to 0x06 on counters 3-18 (artifacts/onboarding/bpif3_20261005_dtb/k1-x_deb1.dts in the runner repo).
+// Documented, not yet measured on the board. The Sail reference counts EV_FENCE for the same
+// selector (sail.json event_selectors) and the reference build triggers it with a fence.
+#define RVMODEL_HPM_COUNTER 3
+#define RVMODEL_MHPMEVENT_VAL 0x06
+#define RVMODEL_MHPMEVENT_CODE(_R1, _R2) \
+    lw _R2, 0(_R1)
+
 #endif // _RVMODEL_MACROS_H

@@ -297,7 +297,16 @@
     ]
   },
   "platform": {
-    "event_selectors": [],
+    // Sscofpmf: the board's selector 0x200 (RVMODEL_MHPMEVENT_VAL) counts fences in Sail.
+    "event_selectors": [
+      {
+        "event": "EV_FENCE",
+        "selector": {
+          "len": 64,
+          "value": "0x200"
+        }
+      }
+    ],
     "vendorid": 1161,
     "archid": 9223372036854775816,
     "impid": 102892581,
