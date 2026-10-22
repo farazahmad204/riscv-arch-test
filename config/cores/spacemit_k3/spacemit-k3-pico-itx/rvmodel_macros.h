@@ -37,6 +37,8 @@
 // K3 M-mode CLINT
 #define K3_MSIP_ADDRESS     0xF1810000
 #define K3_MTIME_ADDRESS    0xF181BFF8
+// ACT act4 (#2864) requires mtime whenever machine timer interrupts are implemented.
+#define RVMODEL_MTIME_ADDRESS K3_MTIME_ADDRESS
 #define K3_MTIMECMP_ADDRESS 0xF1814000
 
 #define RVMODEL_DATA_SECTION \

@@ -19,7 +19,7 @@
 
 // Extra defines (if needed) to enable trap handlers, fpu, vector, etc.
 #define BOOT_TO_SMODE
-#define TRAP_SIGUPD_COUNT 30
+#define TRAP_SIGUPD_COUNT 8
 
 // Include framework macros
 #include "riscv_arch_test.h"
@@ -27,7 +27,6 @@
 // Set up test environment and declare main entry point
 RVTEST_BEGIN
 
-main:
 Svinval_cg_cp_svinval_test1_sfence_w_inval:
   sfence.w.inval
 

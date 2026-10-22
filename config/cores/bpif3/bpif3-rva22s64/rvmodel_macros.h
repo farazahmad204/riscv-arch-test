@@ -34,6 +34,8 @@
 // K1 CLINT
 #define K1_MSIP_ADDRESS     0xE4000000
 #define K1_MTIME_ADDRESS    0xE400BFF8
+// ACT act4 (#2864) requires mtime whenever machine timer interrupts are implemented.
+#define RVMODEL_MTIME_ADDRESS K1_MTIME_ADDRESS
 #define K1_MTIMECMP_ADDRESS 0xE4004000
 
 #ifndef BOARD_FIXED_TOHOST_ADDR
