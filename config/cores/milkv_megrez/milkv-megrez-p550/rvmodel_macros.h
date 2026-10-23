@@ -481,8 +481,48 @@
 #undef SM1P12P0_OR_LATER_SUPPORTED
 #undef S1P12P0_OR_LATER_SUPPORTED
 
-// htimedelta traps on the P550 (csr_probe 2026-10-05, no time CSR either), so the
-// H boot code must not write it.
-#define RVMODEL_HTIMEDELTA_UNIMPLEMENTED 1
+// htimedelta traps on the P550 (csr_probe 2026-10-05; no time CSR either). Two things in
+// ACT touch it, both through illegal-instruction traps that reach ACT's M-mode invisible
+// handler, which runs this hook before its own time-CSR emulation:
+//  - the H boot code's `csrw htimedelta, zero`: zero is what an absent htimedelta reads as,
+//    so the write is treated as done (action 1: skip the instruction);
+//  - a time read from VS or VU, which ACT computes as mtime + htimedelta: here mtime + 0
+//    (action 2: write mtime to rd). The permission checks mirror ACT's; every other case
+//    (M/HS/U reads, missing counter enables) is left to ACT's handler (action 0).
+// P550 is RV64, so timeh/htimedeltah do not occur. T6 is free here, as in ACT's handler.
+#define RVMODEL_INVISIBLE_TRAP_HANDLER(_PC, _INSN, _ACT, _DEST, _VAL)          \
+  li      _VAL, (CSR_HTIMEDELTA << 20) | (1 << 12) | 0x73;  /* csrrw x0, htimedelta, x0 */ \
+  beq     _INSN, _VAL, 71f;                                                  \
+  li      _VAL, INSN_FIELD_CSR | INSN_FIELD_RS1 | INSN_FIELD_OPCODE | (2 << 12); \
+  and     _DEST, _INSN, _VAL;                                                \
+  li      _VAL, (CSR_TIME << 20) | (2 << 12) | 0x73;  /* csrrs/csrrc rd, time, x0 */ \
+  bne     _DEST, _VAL, 79f;                                                  \
+  csrr    _VAL, mstatus;                                                     \
+  srli    _VAL, _VAL, (32 + MPV_LSB);                                        \
+  andi    _VAL, _VAL, 1;                                                     \
+  beqz    _VAL, 79f;                  /* not from VS/VU */                   \
+  csrr    _VAL, mcounteren;                                                  \
+  andi    _VAL, _VAL, MCOUNTEREN_TIME;                                       \
+  beqz    _VAL, 79f;                                                         \
+  csrr    _VAL, CSR_HCOUNTEREN;                                              \
+  andi    _VAL, _VAL, MCOUNTEREN_TIME;                                       \
+  beqz    _VAL, 79f;                  /* ACT raises virtual-instruction */   \
+  csrr    T6, mstatus;                                                       \
+  li      _VAL, MSTATUS_MPP;                                                 \
+  and     T6, T6, _VAL;                                                      \
+  bnez    T6, 72f;                    /* VS-mode */                          \
+  csrr    _VAL, scounteren;                                                  \
+  andi    _VAL, _VAL, MCOUNTEREN_TIME;                                       \
+  beqz    _VAL, 79f;                  /* VU without scounteren.TM */         \
+72:                                                                          \
+  li      _VAL, RVMODEL_MTIME_ADDRESS;                                       \
+  ld      _VAL, 0(_VAL);                                                     \
+  srli    _DEST, _INSN, 7;                                                   \
+  andi    _DEST, _DEST, 0x1f;                                                \
+  li      _ACT, 2;                                                           \
+  j       79f;                                                               \
+71:                                                                          \
+  li      _ACT, 1;                                                           \
+79:
 
 #endif // _RVMODEL_MACROS_H
