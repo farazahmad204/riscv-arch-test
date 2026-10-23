@@ -127,7 +127,8 @@ rvmodel_runner_mtvec:                    \
 // subtests (tests/env/check_defines.h). On the K3 a load from 0x0 (TCM) never completes and
 // hangs the core (csr_probe trace, 2026-10-19); no address that faults cleanly is known yet.
 
-// ACT loads CLINT addresses PC-relative: the CLINT (0xF1800000) is ~0.5 GiB below the tests.
+// The CLINT is far from the test image: ACT must load CLINT addresses absolutely.
+#define RVMODEL_CLINT_ABSOLUTE 1
 #define RVMODEL_MTIMECMP_ADDRESS K3_MTIMECMP_ADDRESS
 
 ##### Machine Interrupts #####

@@ -1,8 +1,6 @@
 /* ACT 4.1 linker layout for SpacemiT K1 / Banana Pi BPI-F3. */
-/* Within 2 GiB of the CLINT (0xE4000000), so ACT reaches it PC-relative; inside the runner's
-   DRAM window (BOARD_RAM_BASE..BOARD_RAM_LIMIT, 0x04000000..0x80000000) and clear of the
-   runner (0x04000000) and its UART staging buffer (0x0C200000). */
-RAM_ORIGIN = 0x70000000;
+RAM_ORIGIN = 0x04200000;
+/* Keep generated ELFs below the runner's external-pack window at 0x0c200000. */
 RAM_LENGTH = 0x08000000;
 TEST_BASE = RAM_ORIGIN;
 NUM_HARTS = 1;
