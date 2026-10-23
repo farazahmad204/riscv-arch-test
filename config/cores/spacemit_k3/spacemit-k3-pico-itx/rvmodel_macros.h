@@ -134,8 +134,6 @@ rvmodel_runner_mtvec:                    \
 #define RVMODEL_CLINT_ABSOLUTE 1
 #define RVMODEL_MTIMECMP_ADDRESS K3_MTIMECMP_ADDRESS
 
-#define RVMODEL_LOAD_MTIMECMP_ADDR(_REG) LOAD_ADDR32(_REG, K3_MTIMECMP_ADDRESS)
-
 ##### Machine Interrupts #####
 
 #define RVMODEL_INTERRUPT_LATENCY 50
