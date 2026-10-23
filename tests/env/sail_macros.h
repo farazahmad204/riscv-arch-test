@@ -29,34 +29,15 @@
 #undef RVTEST_EMULATE_TIME_CSR
 #undef RVMODEL_INVISIBLE_TRAP_HANDLER
 
+// Sail does not model Smrnmi yet, so the signature build must not write mnstatus at boot.
+// The self-checking build for a DUT with Smrnmi still sets mnstatus.NMIE.
+#undef SMRNMI_SUPPORTED
+
 #undef RVMODEL_DATA_SECTION
 #define RVMODEL_DATA_SECTION \
         .pushsection .tohost,"aw",@progbits;                \
         .balign 8; .global tohost; tohost: .dword 0;         \
         .balign 8; .global fromhost; fromhost: .dword 0;     \
-        .balign 8; .global rvmodel_boot_hartid;              \
-        rvmodel_boot_hartid: .dword 0;                       \
-        .balign 8; .global rvmodel_last_plic_claim;          \
-        rvmodel_last_plic_claim: .dword 0;                   \
-        .balign 8; .global irqdbg_first_valid;               \
-        irqdbg_first_valid: .dword 0;                        \
-        .global irqdbg_first_mode; irqdbg_first_mode: .dword 0; \
-        .global irqdbg_first_xepc; irqdbg_first_xepc: .dword 0; \
-        .global irqdbg_first_xcause; irqdbg_first_xcause: .dword 0; \
-        .global irqdbg_first_xtval; irqdbg_first_xtval: .dword 0; \
-        .global irqdbg_first_xstatus; irqdbg_first_xstatus: .dword 0; \
-        .global irqdbg_first_mideleg; irqdbg_first_mideleg: .dword 0; \
-        .global irqdbg_first_mip; irqdbg_first_mip: .dword 0; \
-        .global irqdbg_first_mie; irqdbg_first_mie: .dword 0; \
-        .global irqdbg_first_sip; irqdbg_first_sip: .dword 0; \
-        .global irqdbg_first_sie; irqdbg_first_sie: .dword 0; \
-        .global irqdbg_stage; irqdbg_stage: .dword 0;         \
-        .global irqdbg_pre_mideleg; irqdbg_pre_mideleg: .dword 0; \
-        .global irqdbg_pre_mie; irqdbg_pre_mie: .dword 0;    \
-        .global irqdbg_pre_mip; irqdbg_pre_mip: .dword 0;    \
-        .global irqdbg_pre_mstatus; irqdbg_pre_mstatus: .dword 0; \
-        .global irqdbg_pre_sip; irqdbg_pre_sip: .dword 0;    \
-        .global irqdbg_pre_sie; irqdbg_pre_sie: .dword 0;    \
         .popsection
 
 ##### STARTUP #####
@@ -65,10 +46,7 @@
 # DUT-specific behavior such as turning on a memory controller or
 # initializing custom state.
 #undef RVMODEL_BOOT
-#define RVMODEL_BOOT                     \
-  csrr T1, mhartid;                      \
-  la T2, rvmodel_boot_hartid;            \
-  SREG T1, 0(T2)
+// #define RVMODEL_BOOT
 
 ##### TERMINATION #####
 
@@ -151,15 +129,11 @@
 #undef RVMODEL_INTERRUPT_LATENCY
 #define RVMODEL_INTERRUPT_LATENCY 1
 
-// Sail reports mhartid=1 to match VF2, but its single-hart CLINT exposes only
-// slot 0. This is a reference-model MMIO limitation, not a hart-ID mismatch in
-// the test. The hardware macros continue to use the physical hart-1 slots.
-#undef RVMODEL_MTIMECMP_ADDRESS
-#define RVMODEL_MTIMECMP_ADDRESS 0x02004000
 #undef RVMODEL_TIMER_INT_SOON_DELAY
 #define RVMODEL_TIMER_INT_SOON_DELAY 5000 // Sail ticks once per instruction; T-SBI round trips in the *_INT_SOON macros cost up to ~1000 ticks
 
 #undef RVMODEL_SET_MEXT_INT
+#undef RVMODEL_SET_MEXT_INT_M
 #define RVMODEL_SET_MEXT_INT(_R1, _R2)        \
   li _R1, (1 << 31) | (1 << 11);               \
   li _R2, SAIL_SIG_ADDRESS;    \
@@ -167,12 +141,14 @@
 
 
 #undef RVMODEL_CLR_MEXT_INT
+#undef RVMODEL_CLR_MEXT_INT_M
 #define RVMODEL_CLR_MEXT_INT(_R1, _R2)        \
   li _R1, (1 << 11);               \
   li _R2, SAIL_SIG_ADDRESS;    \
   sw _R1, 0(_R2)            ; /* Clear MEXT interrupt */ \
 
 #undef RVMODEL_SET_MSW_INT
+#undef RVMODEL_SET_MSW_INT_M
 #define RVMODEL_SET_MSW_INT(_R1, _R2)        \
   li _R1, 1;                 \
   li _R2, SAIL_MSIP_ADDRESS;              \
@@ -180,6 +156,7 @@
 
 
 #undef RVMODEL_CLR_MSW_INT
+#undef RVMODEL_CLR_MSW_INT_M
 #define RVMODEL_CLR_MSW_INT(_R1, _R2)        \
   li _R2, SAIL_MSIP_ADDRESS;              \
   sw zero, 0(_R2);
@@ -188,27 +165,40 @@
 
 ##### Supervisor Interrupts #####
 #undef RVMODEL_SET_SEXT_INT
+#undef RVMODEL_SET_SEXT_INT_M
 #define RVMODEL_SET_SEXT_INT(_R1, _R2)        \
   li _R1, (1 << 31) | (1 << 9);               \
   li _R2, SAIL_SIG_ADDRESS;    \
   sw _R1, 0(_R2)            ; /* Set SEXT interrupt */ \
 
 #undef RVMODEL_CLR_SEXT_INT
+#undef RVMODEL_CLR_SEXT_INT_M
 #define RVMODEL_CLR_SEXT_INT(_R1, _R2)        \
   li _R1, (1 << 9);               \
   li _R2, SAIL_SIG_ADDRESS;    \
   sw _R1, 0(_R2)            ; /* Clear SEXT interrupt */ \
 
 #undef RVMODEL_SET_SSW_INT
+#undef RVMODEL_SET_SSW_INT_M
 #define RVMODEL_SET_SSW_INT(_R1, _R2)        \
   li _R1, (1 << 31) | (1 << 1);               \
   li _R2, SAIL_SIG_ADDRESS;    \
   sw _R1, 0(_R2)            ; /* Set SSW interrupt */ \
 
 #undef RVMODEL_CLR_SSW_INT
+#undef RVMODEL_CLR_SSW_INT_M
 #define RVMODEL_CLR_SSW_INT(_R1, _R2)        \
   li _R1, (1 << 1);               \
   li _R2, SAIL_SIG_ADDRESS;    \
   sw _R1, 0(_R2)            ; /* Clear SSW interrupt */ \
+
+
+
+##### Sscofpmf #####
+# The reference build triggers Sail's own event counter instead of the DUT's.
+# The Sail model is configured to count fences.
+#undef RVMODEL_MHPMEVENT_CODE
+#define RVMODEL_MHPMEVENT_CODE(_R1, _R2) \
+  fence
 
 #endif // _SAIL_MACROS_H

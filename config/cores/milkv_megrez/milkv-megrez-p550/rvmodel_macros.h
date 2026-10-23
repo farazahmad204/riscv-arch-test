@@ -473,4 +473,15 @@
   li _R2, SIG_ADDRESS;    \
   sw _R1, 0(_R2)            ; /* Clear SSW interrupt */ \
 
+##### Sscofpmf #####
+
+// Counter and event for the Sscofpmf tests (required by ACT act4 since the Sscofpmf suites).
+// SiFive P550: event 0x200 counts loads; source: Linux perf vendor events sifive/p550 (= sifive/bullet instruction.json): INTEGER_LOAD_RETIRED is event code 0x200.
+// Documented, not yet measured on the board. The Sail reference counts EV_FENCE for the same
+// selector (sail.json event_selectors) and the reference build triggers it with a fence.
+#define RVMODEL_HPM_COUNTER 3
+#define RVMODEL_MHPMEVENT_VAL 0x200
+#define RVMODEL_MHPMEVENT_CODE(_R1, _R2) \
+    lw _R2, 0(_R1)
+
 #endif // _RVMODEL_MACROS_H
