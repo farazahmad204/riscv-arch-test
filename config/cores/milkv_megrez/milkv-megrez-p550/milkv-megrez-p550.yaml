@@ -187,7 +187,8 @@ params:
   COUNTINHIBIT_EN: [true, false, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
   # HPM counters 3-6 implemented (OpenSBI MHPM mask 0x78).
   MCOUNTENABLE_EN: [false, false, false, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
-  # Same bits as sail.json medeleg.delegatable_bits (0xf0b55d).
+  # sail.json medeleg.delegatable_bits (0xf0b55d) without the H-only causes (10, 20-23):
+  # this UDB config does not include H, so UDB requires them off (0xb15d).
   MEDELEG_DELEGATABLE:
     [
       true,
@@ -200,20 +201,20 @@ params:
       false,
       true,
       false,
-      true,
-      false,
-      true,
-      true,
-      false,
-      true,
-      false,
-      false,
       false,
       false,
       true,
       true,
+      false,
       true,
-      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
       false,
       false,
       false,
