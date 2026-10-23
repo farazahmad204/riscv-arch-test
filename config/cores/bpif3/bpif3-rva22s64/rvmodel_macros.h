@@ -16,7 +16,7 @@
 //   tohost:              linked symbol inside each test ELF (see below);
 //                        0x04100000 (BOARD_FIXED_TOHOST_ADDR) fallback only
 //   Test ELF pack:       0x0C200000  (BOARD_EXT_PACK_ADDR)
-//   Test ELF load:       0x04200000  (link.ld ". = 0x04200000")
+//   Test ELF load:       0x70000000  (link.ld RAM_ORIGIN; within 2 GiB of the CLINT)
 
 #ifndef _RVMODEL_MACROS_H
 #define _RVMODEL_MACROS_H
@@ -109,11 +109,8 @@ tohost:                                  \
 // addresses: 0x0 is DRAM (memory@0), unmapped 0x80_0000_0000 reads bus garbage, and
 // 1 << 40 wraps to 0x0 (csr_probe on the board, 2026-10-05).
 
-// The K1 CLINT is ~3.5 GiB from the test image: ACT must load CLINT addresses absolutely.
-#define RVMODEL_CLINT_ABSOLUTE 1
+// ACT loads CLINT addresses PC-relative; link.ld keeps the tests within 2 GiB of the CLINT.
 #define RVMODEL_MTIMECMP_ADDRESS K1_MTIMECMP_ADDRESS
-
-#define RVMODEL_LOAD_MTIMECMP_ADDR(_REG) LOAD_ADDR32(_REG, K1_MTIMECMP_ADDRESS)
 
 ##### Machine Interrupts #####
 
