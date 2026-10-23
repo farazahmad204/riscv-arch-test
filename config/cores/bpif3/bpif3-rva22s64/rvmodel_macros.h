@@ -16,7 +16,7 @@
 //   tohost:              linked symbol inside each test ELF (see below);
 //                        0x04100000 (BOARD_FIXED_TOHOST_ADDR) fallback only
 //   Test ELF pack:       0x0C200000  (BOARD_EXT_PACK_ADDR)
-//   Test ELF load:       0x04200000  (link.ld ". = 0x04200000")
+//   Test ELF load:       0x50000000  (link.ld RAM_ORIGIN; above the first GiB for the Sv tests)
 
 #ifndef _RVMODEL_MACROS_H
 #define _RVMODEL_MACROS_H

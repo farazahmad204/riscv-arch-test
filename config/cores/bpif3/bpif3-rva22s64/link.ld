@@ -1,6 +1,8 @@
 /* ACT 4.1 linker layout for SpacemiT K1 / Banana Pi BPI-F3. */
-RAM_ORIGIN = 0x04200000;
-/* Keep generated ELFs below the runner's external-pack window at 0x0c200000. */
+/* Above the first GiB: Sv tests remap virtual addresses 0..1 GiB (e.g. Sv_sv39_VA_all_zeros), which
+   would unmap test code linked there, including the S-mode trap handler. Inside the runner's DRAM
+   window (BOARD_RAM_BASE..BOARD_RAM_LIMIT, 0x04000000..0x80000000) and Sail's RAM region. */
+RAM_ORIGIN = 0x50000000;
 RAM_LENGTH = 0x08000000;
 TEST_BASE = RAM_ORIGIN;
 NUM_HARTS = 1;
