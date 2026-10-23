@@ -158,8 +158,9 @@
 // Sail reports mhartid=1 to match VF2, but its single-hart CLINT exposes only
 // slot 0. This is a reference-model MMIO limitation, not a hart-ID mismatch in
 // the test. The hardware macros continue to use the physical hart-1 slots.
+// Slot 0 of the board's own Sail CLINT (sail.json platform.clint.base).
 #undef RVMODEL_MTIMECMP_ADDRESS
-#define RVMODEL_MTIMECMP_ADDRESS 0x02004000
+#define RVMODEL_MTIMECMP_ADDRESS SAIL_MTIMECMP_ADDRESS
 #undef RVMODEL_TIMER_INT_SOON_DELAY
 #define RVMODEL_TIMER_INT_SOON_DELAY 5000 // Sail ticks once per instruction; T-SBI round trips in the *_INT_SOON macros cost up to ~1000 ticks
 
