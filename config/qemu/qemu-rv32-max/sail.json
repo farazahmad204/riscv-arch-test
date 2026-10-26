@@ -526,7 +526,15 @@
     // the selector values should be unique.  These selector values
     // are always specified as 64-bit, but their values must fit the
     // width restrictions mentioned above.
-    "event_selectors": []
+    "event_selectors": [
+      {
+        "event": "EV_FENCE",
+        "selector": {
+          "len": 64,
+          "value": "0x2"
+        }
+      }
+    ]
   },
   "extensions": {
     "M": {
@@ -632,7 +640,7 @@
     "H": {
       "mutable_misa": false,
       "supported": true,
-      "geilen": 31,
+      "geilen": 7,
       // Whether an implicit access to a VS-stage PTE sets the D bit of a writable G-stage PTE
       "implicit_vs_pte_access_sets_gstage_d": false,
       "guest_page_fault_writes_htval": true,
