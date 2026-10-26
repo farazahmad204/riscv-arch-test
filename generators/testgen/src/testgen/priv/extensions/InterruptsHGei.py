@@ -8,9 +8,10 @@
 
 """InterruptsHGei guest external interrupt test generator.
 
-hgeip is read-only, so only the platform can raise a guest external interrupt, through the optional
-RVMODEL_SET/CLR_GUEST_EXT_INT hooks (UDB_SGEI_INTR_IMPL).  Every test here uses those hooks, so they are kept apart
-from InterruptsH and InterruptsHSm and produce no testcases when the hooks are undefined.
+hgeip is read-only, so only the platform can raise a guest external interrupt, through the
+RVMODEL_SET/CLR_GUEST_EXT_INT hooks, which a DUT with GEILEN > 0 must define.  Every test here uses those hooks, so
+they are kept apart from InterruptsH and InterruptsHSm and produce no testcases when GEILEN = 0 (UDB_SGEI_INTR_IMPL
+undefined).
 
 The suite boots to HS-mode.  The m file reads mip from M-mode with a guest external interrupt pending.  The hs file
 covers hgeip and hgeie, hip.SGEIP, hstatus.VGEIN and the SGEI priority.  The hooks may reach IMSIC state below
@@ -40,8 +41,11 @@ IMSIC_STATEEN_ON = (
 
 
 def _gei(op: str, gei: int, tmp_reg: int) -> list[str]:
-    """Raise (SET) or clear (CLR) guest external interrupt gei through the platform, and wait for hgeip."""
-    return [f"RVMODEL_{op}_GUEST_EXT_INT({gei}, a1, a2)", f"RVTEST_IDLE_FOR_INTERRUPT(x{tmp_reg})"]
+    """Raise (SET) or clear (CLR) guest external interrupt gei through the platform, and wait for hgeip.
+
+    The hooks take the interrupt number in a register and may trash it, so it goes in a0 with a1 and a2 as temporaries.
+    """
+    return [f"li a0, {gei}", f"RVMODEL_{op}_GUEST_EXT_INT(a0, a1, a2)", f"RVTEST_IDLE_FOR_INTERRUPT(x{tmp_reg})"]
 
 
 def _mip_tests(test_data: TestData) -> list[str]:

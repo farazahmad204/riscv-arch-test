@@ -14,6 +14,11 @@ from dataclasses import dataclass, replace
 # Root and lower-level page-table labels of each translation stage
 _TABLES = {"s": ("Sroot", "slvl"), "vs": ("Vroot", "vlvl"), "g": ("Hroot", "hlvl")}
 
+# The PTE_SETUP_* macros (rvtest_macros.h) build each PTE in a0 and its address in t1, clobbering a0, a1, t0
+# and t1. They leave the last PTE and its address there, which change_pte_to_be reads.
+PTE_SETUP_VALUE_REG = 10
+PTE_SETUP_ADDR_REG = 6
+
 
 @dataclass(frozen=True)
 class SvMode:
@@ -112,6 +117,31 @@ SV48X4 = SvMode("sv48x4", 64, 4, "0x28500403000", "0x18000000000", ("4KB", "2MB"
 SV57X4 = SvMode(
     "sv57x4", 64, 5, "0x7028500403000", "0x3000000000000", ("4KB", "2MB", "1GB", "512GB", "256TB"), stage="g"
 )
+
+
+def table_data(label: str) -> list[str]:
+    """Data lines for the 4 KiB page table ``label``.  .ifndef keeps one copy when several chunks of a file add it."""
+    return [f".ifndef {label}", ".p2align 12", f"{label}:", ".skip 4096", ".endif"]
+
+
+def lower_table_data(*modes: SvMode) -> list[str]:
+    """Data lines for the tables below the root that ``modes`` walk.  The framework provides only the root tables."""
+    return [
+        line for mode in modes for level in range(mode.levels - 1) for line in table_data(mode.page_table_label(level))
+    ]
+
+
+def guest_table_data() -> list[str]:
+    """Data lines for the G-stage and VS-stage tables below the root for a kilopage under the smallest modes H
+    requires: Sv32x4/Sv32 walk one level below the root on RV32, and Sv39x4/Sv39 walk two on RV64.  Tests of
+    Sv48x4/Sv48 and Sv57x4/Sv57 add the deeper tables with lower_table_data."""
+    return [
+        *lower_table_data(SV32X4, VS_SV32),
+        "#if __riscv_xlen == 64",
+        *table_data(SV39X4.page_table_label(1)),
+        *table_data(VS_SV39.page_table_label(1)),
+        "#endif",
+    ]
 
 
 @dataclass(frozen=True)

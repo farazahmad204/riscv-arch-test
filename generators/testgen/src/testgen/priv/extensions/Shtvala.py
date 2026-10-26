@@ -20,7 +20,7 @@ from testgen.data.state import TestData
 from testgen.data.test_chunk import TestChunk
 from testgen.priv.extensions.HCommon import TWO_STAGE_GATE, guest_fault_tests
 from testgen.priv.extensions.sv.generate import guest_translation_setup, guest_translation_teardown, per_xlen
-from testgen.priv.extensions.sv.page_tables import PteFlags, SvMode, create_page_mapping, write_pte
+from testgen.priv.extensions.sv.page_tables import PteFlags, SvMode, create_page_mapping, guest_table_data, write_pte
 from testgen.priv.registry import add_priv_test_generator
 
 COVERGROUP = "Shtvala_cg"
@@ -74,7 +74,8 @@ def make_shtvala(test_data: TestData) -> list[TestChunk]:
         for instr, coverpoint in FAULTS
         for access in ("final", "implicit")
     ]
-    tc = test_data.begin_test_chunk()
+    test_chunks: list[TestChunk] = []
+    tc = test_data.new_test_chunk(test_chunks)
     tc.code.extend(
         [
             comment_banner(
@@ -85,7 +86,56 @@ def make_shtvala(test_data: TestData) -> list[TestChunk]:
             *guest_fault_tests(test_data, COVERGROUP, "htval", _leaves, faults),
         ]
     )
-    return [test_data.end_test_chunk()]
+    tc = test_data.new_test_chunk(test_chunks, "hlsv")
+    tc.code.extend(_hlsv_tests(test_data))
+    test_chunks.append(test_data.end_test_chunk())
+    return test_chunks
+
+
+def _hlsv_tests(test_data: TestData) -> list[str]:
+    """hlv.w and hsv.w from HS-mode and from U-mode (hstatus.HU = 1) with hstatus.SPVP = 0, where the final access
+    or the implicit VS-stage PTE read has an unmapped guest physical address.  A faulting hlv.w leaves rd unchanged."""
+
+    def mappings(g: SvMode, vs: SvMode) -> list[str]:
+        pte, addr, tmp = test_data.int_regs.get_registers(3)
+        leaves = _leaves(g, vs, True, (pte, addr, tmp))
+        test_data.int_regs.return_registers([pte, addr, tmp])
+        return [*leaves, *guest_translation_setup(test_data, g, vs, "VUmode")]
+
+    addr, rd = test_data.int_regs.get_registers(2)
+    lines = [
+        comment_banner(
+            "cp_hlv_guest_page_fault, cp_hsv_guest_page_fault",
+            "In HS-mode and U-mode, hlv.w and hsv.w where the final access or the implicit VS-stage PTE read has an\n"
+            "unmapped guest physical address",
+        ),
+        f"#if {TWO_STAGE_GATE}",
+        *per_xlen(mappings),
+        f"LI(x{rd}, HSTATUS_SPVP)",
+        f"csrc hstatus, x{rd}",
+        f"LI(x{rd}, HSTATUS_HU)",
+        f"csrs hstatus, x{rd}",
+        f"LI(x{rd}, 42)",
+    ]
+    for mode in ("hs", "u"):
+        if mode == "u":
+            lines.append("RVTEST_TSBI_GOTO_UMODE")
+        for access, address in (("final", lambda vs: int(vs.data_va, 16)), ("implicit", _implicit_va)):
+            for instr, coverpoint in (("hlv.w", "cp_hlv_guest_page_fault"), ("hsv.w", "cp_hsv_guest_page_fault")):
+                lines.extend(
+                    [
+                        *per_xlen(lambda _, vs, va=address: [f"LI(x{addr}, {va(vs):#x})"]),
+                        f"RVTEST_TSBI_CSR_WRITE(CSR_HTVAL, {random_int(32, signed=False):#x})",
+                        test_data.add_testcase(f"{mode}_{instr.replace('.', '_')}_{access}", coverpoint, COVERGROUP),
+                        f"{instr} x{rd}, (x{addr})",
+                    ]
+                )
+        if mode == "u":
+            lines.append("RVTEST_TSBI_GOTO_SMODE")
+        lines.append(write_sigupd(rd, test_data))
+    lines.extend([f"LI(x{rd}, HSTATUS_HU)", f"csrc hstatus, x{rd}"])
+    test_data.int_regs.return_registers([addr, rd])
+    return [*lines, *guest_translation_teardown(test_data), f"#endif // {TWO_STAGE_GATE}"]
 
 
 #####################################################################
@@ -190,6 +240,7 @@ def make_shtvala_straddle(test_data: TestData) -> list[TestChunk]:
         ("straddle", "cp_store_straddle_guest_page_fault", "sw", _straddle_va),
     ]
     tc = test_data.begin_test_chunk("straddle")
+    tc.raw_data.extend(guest_table_data())
     tc.code.extend(
         [
             comment_banner(

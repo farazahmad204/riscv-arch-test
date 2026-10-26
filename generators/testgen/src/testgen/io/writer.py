@@ -86,10 +86,12 @@ def write_test_file(
         extra_defines.append(f"#define TRAP_SIGUPD_COUNT {trap_sigupd_count}")
     if any("RVTEST_TEST_CSR" in line for tc in test_chunks for line in tc.code):
         extra_defines.append("#define RVTEST_USES_TEST_CSR")
+    if any("RVTEST_CYCLE_CSR" in line for tc in test_chunks for line in tc.code):
+        extra_defines.append("#define RVTEST_USES_CYCLE_CSR")
 
     # Construct filename and paths
     if instr_name is not None:
-        filename = f"{testsuite}-{instr_name}-{file_idx:02d}.S"
+        filename = f"{test_config.name_prefix}-{instr_name}-{file_idx:02d}.S"
     elif split_name is not None:
         filename = f"{testsuite}_{split_name}-{file_idx:02d}.S"
     else:

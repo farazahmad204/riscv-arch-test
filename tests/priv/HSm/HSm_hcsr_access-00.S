@@ -15,7 +15,7 @@
 ##### END_TEST_CONFIG #####
 
 // Define the size of the signature region
-#define SIGUPD_COUNT 112
+#define SIGUPD_COUNT 114
 
 // Extra defines (if needed) to enable trap handlers, fpu, vector, etc.
 #define BOOT_TO_MMODE
@@ -110,13 +110,13 @@ HSm_mcsr_cg_cp_hcsr_access_masked_hstatus_csrrc_all:
 
 # CSR Access Tests for hedeleg
   csrr x15, hedeleg    # Save CSR
-  LI(x9, 16629758)    # Load mask (0xfdbffe)
+  LI(x9, 15843326)    # Load mask (0xf1bffe)
   LI(x6, -1)             # write all 1s
 HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrrw1:
   csrw hedeleg, x6    # Write all 1s to CSR
   # Read hedeleg into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hedeleg    # Read CSR
-  and x14, x14, x9    # keep only masked bits 0xfdbffe
+  and x14, x14, x9    # keep only masked bits 0xf1bffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrrw1, HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrrw1_str)
 
@@ -124,7 +124,7 @@ HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrrw0:
   csrw hedeleg, zero   # Write all 0s to CSR
   # Read hedeleg into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hedeleg    # Read CSR
-  and x14, x14, x9    # keep only masked bits 0xfdbffe
+  and x14, x14, x9    # keep only masked bits 0xf1bffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrrw0, HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrrw0_str)
 
@@ -132,7 +132,7 @@ HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrs_all:
   csrs hedeleg, x6    # Set all 1s
   # Read hedeleg into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hedeleg    # Read CSR
-  and x14, x14, x9    # keep only masked bits 0xfdbffe
+  and x14, x14, x9    # keep only masked bits 0xf1bffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrs_all, HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrs_all_str)
 
@@ -140,7 +140,7 @@ HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrrc_all:
   csrc hedeleg, x6    # Clear all 1s
   # Read hedeleg into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hedeleg    # Read CSR
-  and x14, x14, x9    # keep only masked bits 0xfdbffe
+  and x14, x14, x9    # keep only masked bits 0xf1bffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrrc_all, HSm_mcsr_cg_cp_hcsr_access_hedeleg_csrrc_all_str)
   csrw hedeleg, x15       # Restore CSR
@@ -559,16 +559,16 @@ HSm_mcsr_cg_cp_hcsr_access_masked_henvcfgh_csrrc_all:
 # CSR Access Tests for vsstatus
   csrr x6, vsstatus    # Save CSR
 #if __riscv_xlen == 64
-  LI(x14, 0x80000000808de722)    # Load 64-bit mask
+  LI(x14, 0x80000000818de722)    # Load 64-bit mask
 #else
-  LI(x14, 0x808de722)   # Load 32-bit mask (upper bits of 0x80000000808de722 are ignored)
+  LI(x14, 0x818de722)   # Load 32-bit mask (upper bits of 0x80000000818de722 are ignored)
 #endif
   LI(x15, -1)             # write all 1s
 HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrrw1:
   csrw vsstatus, x15    # Write all 1s to CSR
   # Read vsstatus into x8, keep only bits specified by mask, and check against expected.
   csrr x8, vsstatus    # Read CSR
-  and x8, x8, x14    # keep only masked bits 0x80000000808de722
+  and x8, x8, x14    # keep only masked bits 0x80000000818de722
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrrw1, HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrrw1_str)
 
@@ -576,7 +576,7 @@ HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrrw0:
   csrw vsstatus, zero   # Write all 0s to CSR
   # Read vsstatus into x8, keep only bits specified by mask, and check against expected.
   csrr x8, vsstatus    # Read CSR
-  and x8, x8, x14    # keep only masked bits 0x80000000808de722
+  and x8, x8, x14    # keep only masked bits 0x80000000818de722
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrrw0, HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrrw0_str)
 
@@ -584,7 +584,7 @@ HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrs_all:
   csrs vsstatus, x15    # Set all 1s
   # Read vsstatus into x8, keep only bits specified by mask, and check against expected.
   csrr x8, vsstatus    # Read CSR
-  and x8, x8, x14    # keep only masked bits 0x80000000808de722
+  and x8, x8, x14    # keep only masked bits 0x80000000818de722
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrs_all, HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrs_all_str)
 
@@ -592,7 +592,7 @@ HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrrc_all:
   csrc vsstatus, x15    # Clear all 1s
   # Read vsstatus into x8, keep only bits specified by mask, and check against expected.
   csrr x8, vsstatus    # Read CSR
-  and x8, x8, x14    # keep only masked bits 0x80000000808de722
+  and x8, x8, x14    # keep only masked bits 0x80000000818de722
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrrc_all, HSm_mcsr_cg_cp_hcsr_access_vsstatus_csrrc_all_str)
   csrw vsstatus, x6       # Restore CSR
@@ -905,6 +905,34 @@ HSm_mcsr_cg_cp_hcsr_access_ro_hgeip_csrrc_all:
   RVTEST_SIGUPD_CSR_READ(hgeip, x6, HSm_mcsr_cg_cp_hcsr_access_ro_hgeip_csrrc_all, HSm_mcsr_cg_cp_hcsr_access_ro_hgeip_csrrc_all_str)
   csrw hgeip, x14       # Restore CSR
 
+#if defined(SM1P13P0_OR_LATER_SUPPORTED)
+  csrr x14, hedeleg
+  LI(x13, -1)
+  LI(x8, 0xc0000)
+HSm_mcsr_cg_cp_hcsr_access_hedeleg_p113_writable:
+  csrw hedeleg, x13
+  # Read hedeleg into x9, keep only bits specified by mask, and check against expected.
+  csrr x9, hedeleg    # Read CSR
+  and x9, x9, x8    # keep only masked bits 0xc0000
+  # Check if x9 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
+  RVTEST_SIGUPD(x2, x5, x4, x9, HSm_mcsr_cg_cp_hcsr_access_hedeleg_p113_writable, HSm_mcsr_cg_cp_hcsr_access_hedeleg_p113_writable_str)
+  csrw hedeleg, x14
+#endif // defined(SM1P13P0_OR_LATER_SUPPORTED)
+
+#if !defined(ZCA_SUPPORTED)
+  csrr x14, hedeleg
+  LI(x8, -1)
+  LI(x13, 0x1)
+HSm_mcsr_cg_cp_hcsr_access_hedeleg_ialign32_writable:
+  csrw hedeleg, x8
+  # Read hedeleg into x9, keep only bits specified by mask, and check against expected.
+  csrr x9, hedeleg    # Read CSR
+  and x9, x9, x13    # keep only masked bits 0x1
+  # Check if x9 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
+  RVTEST_SIGUPD(x2, x5, x4, x9, HSm_mcsr_cg_cp_hcsr_access_hedeleg_ialign32_writable, HSm_mcsr_cg_cp_hcsr_access_hedeleg_ialign32_writable_str)
+  csrw hedeleg, x14
+#endif // !defined(ZCA_SUPPORTED)
+
 // Instantiate trap handlers and other epilog code, call RVMODEL_HALT at end of test
 RVTEST_CODE_END
 
@@ -1031,6 +1059,8 @@ HSm_mcsr_cg_cp_hcsr_access_ro_hgeip_csrrw1_str: .string "\"test: 113; cg: HSm_mc
 HSm_mcsr_cg_cp_hcsr_access_ro_hgeip_csrrw0_str: .string "\"test: 114; cg: HSm_mcsr_cg; cp: cp_hcsr_access_ro; bin: hgeip_csrrw0\""
 HSm_mcsr_cg_cp_hcsr_access_ro_hgeip_csrs_all_str: .string "\"test: 115; cg: HSm_mcsr_cg; cp: cp_hcsr_access_ro; bin: hgeip_csrs_all\""
 HSm_mcsr_cg_cp_hcsr_access_ro_hgeip_csrrc_all_str: .string "\"test: 116; cg: HSm_mcsr_cg; cp: cp_hcsr_access_ro; bin: hgeip_csrrc_all\""
+HSm_mcsr_cg_cp_hcsr_access_hedeleg_p113_writable_str: .string "\"test: 117; cg: HSm_mcsr_cg; cp: cp_hcsr_access; bin: hedeleg_p113_writable\""
+HSm_mcsr_cg_cp_hcsr_access_hedeleg_ialign32_writable_str: .string "\"test: 118; cg: HSm_mcsr_cg; cp: cp_hcsr_access; bin: hedeleg_ialign32_writable\""
 
 // End of test data section and model specific data
 RVTEST_DATA_END

@@ -49,6 +49,28 @@ def generate_instr_adr_misaligned_branch_tests(test_data: TestData, covergroup: 
             ]
         )
 
+    zibi_coverpoint = "cp_instr_adr_misaligned_zibi_branch"
+    lines.extend(
+        [
+            "#ifdef ZIBI_SUPPORTED",
+            ".option push",
+            # ".option arch, +zibi", TODO: uncomment this when Zibi is no longer experimental
+            comment_banner(zibi_coverpoint, "Instruction Address Misaligned Zibi branch (taken)"),
+            test_data.add_testcase("beqi_taken_branch_pc_6", zibi_coverpoint, covergroup),
+            f"beqi x{temp_reg}, 1, .+6",
+            "# branch by 6 lands in upper half of next instruction 0x0001 which is generated into a c.nop",
+            "addi x0, x2, 0",
+            "nop",
+            test_data.add_testcase("bnei_taken_branch_pc_6", zibi_coverpoint, covergroup),
+            f"bnei x{temp_reg}, 2, .+6",
+            "# branch by 6 lands in upper half of next instruction 0x0001 which is generated into a c.nop",
+            "addi x0, x2, 0",
+            "nop",
+            ".option pop",
+            "#endif",
+        ]
+    )
+
     test_data.int_regs.return_registers([temp_reg])
     return lines
 
@@ -80,6 +102,26 @@ def generate_instr_adr_misaligned_branch_nottaken(test_data: TestData, covergrou
         lines.append(f"addi x{check_reg}, x{check_reg}, 1")
 
     lines.append(write_sigupd(check_reg, test_data))
+
+    zibi_coverpoint = "cp_instr_adr_misaligned_zibi_branch_nottaken"
+    lines.extend(
+        [
+            "#ifdef ZIBI_SUPPORTED",
+            ".option push",
+            # ".option arch, +zibi", TODO: uncomment this when Zibi is no longer experimental
+            comment_banner(zibi_coverpoint, "Zibi branch to an unaligned address is not taken"),
+            test_data.add_testcase("beqi_nottaken_branch_pc_6", zibi_coverpoint, covergroup),
+            f"beqi x{temp_reg}, 2, .+6",
+            f"addi x{check_reg}, x{check_reg}, 1",
+            test_data.add_testcase("bnei_nottaken_branch_pc_6", zibi_coverpoint, covergroup),
+            f"bnei x{temp_reg}, 1, .+6",
+            f"addi x{check_reg}, x{check_reg}, 1",
+            write_sigupd(check_reg, test_data),
+            ".option pop",
+            "#endif",
+        ]
+    )
+
     test_data.int_regs.return_registers([temp_reg, check_reg])
     return lines
 
@@ -175,9 +217,7 @@ def generate_ecall_tests(
     lines = [
         comment_banner(coverpoint, description),
         test_data.add_testcase(testcase_name, coverpoint, covergroup),
-        "RVTEST_TSBI_ECALL_TEST  # test ecall to execution environment that just returns",
-        "# ecall returns mepc in a0 (x10).  Store a0 in signature as proof ecall took place.",
-        write_sigupd(10, test_data),
+        "RVTEST_TSBI_ECALL_TEST  # ecall to the execution environment, recorded in the trap signature",
     ]
     return lines
 
@@ -333,7 +373,7 @@ def generate_delegated_fault_tests(
     lines.extend(
         [
             test_data.add_testcase(tag, coverpoints["ecall"], covergroup),
-            "RVTEST_TSBI_ECALL_RECORD  # the trap record shows which mode took the ecall and its cause",
+            "RVTEST_TSBI_ECALL_TEST  # ecall to the execution environment, recorded in the trap signature",
         ]
     )
     return lines

@@ -9,7 +9,7 @@
 """Exceptions S-mode test generator (refactored, calls ExceptionsCommon)."""
 
 from testgen.asm.helpers import comment_banner, write_sigupd
-from testgen.asm.tsbi import tsbi_call
+from testgen.asm.tsbi import tsbi_call, tsbi_call_or_direct
 from testgen.data.state import TestData
 from testgen.data.test_chunk import TestChunk
 from testgen.priv.extensions.ExceptionsCommon import (
@@ -118,17 +118,12 @@ def _generate_xstatus_ie_tests(test_data: TestData, mode_tag: str, priv_mode: in
             )
 
             sie_cmd = f"{'csrs' if sie else 'csrc'} sstatus, x{mask_sie}"
-            if priv_mode == 1:
-                lines.append(sie_cmd)
-            else:  # sstatus is not accessible from U-mode
-                lines.append(tsbi_call(sie_cmd))
+            lines.append(tsbi_call_or_direct(sie_cmd, "S" if priv_mode == 1 else "U"))
 
             lines.extend(
                 [
                     test_data.add_testcase(tag, coverpoint, covergroup),
-                    "RVTEST_TSBI_ECALL_TEST  # test ecall to execution environment that just returns",
-                    "# ecall returns xepc in a0 (x10).  Store a0 in signature as proof ecall took place.",
-                    write_sigupd(10, test_data),
+                    "RVTEST_TSBI_ECALL_TEST  # ecall to the execution environment, recorded in the trap signature",
                 ]
             )
 

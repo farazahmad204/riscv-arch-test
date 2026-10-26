@@ -134,6 +134,22 @@ covergroup InterruptsH_hs_cg with function sample(ins_t ins);
             bins lcofi = {4'b1000};
         }
         cp_priority_lcofi: cross priv_mode_hs, set_sie, sip_lcofi, sie_lcofi, hvip_all, hie_all, hideleg_none;
+
+        // vsip.LCOFIP and vsie.LCOFIE read zero while hideleg bit 13 is zero, with LCOFI pending and enabled
+        vsip_vsie : coverpoint ins.current.insn[31:20] {
+            bins vsip = {CSR_VSIP};
+            bins vsie = {CSR_VSIE};
+        }
+        hideleg_lcofi_zero : coverpoint ins.prev.csr[CSR_HIDELEG][13] {
+            bins zero = {0};
+        }
+        sip_lcofi_one : coverpoint ins.prev.csr[CSR_SIP][13] {
+            bins one = {1};
+        }
+        sie_lcofi_one : coverpoint ins.prev.csr[CSR_SIE][13] {
+            bins one = {1};
+        }
+        cp_vsip_vsie_lcofi: cross priv_mode_hs, csrr, vsip_vsie, hideleg_lcofi_zero, sip_lcofi_one, sie_lcofi_one;
     `endif
 
     // hie, hip, vsie and vsip through hideleg
@@ -217,8 +233,7 @@ covergroup InterruptsH_hs_cg with function sample(ins_t ins);
     // Enter U-mode with the VS-level interrupts pending, enabled and delegated: none is taken
     cp_vsint_disabled_u: cross priv_mode_hs, ecall, tsbi_goto_u, hideleg_all, hvip_all, hie_all;
 
-    // WFI in VS-mode and VU-mode with mstatus.TW and hstatus.VTW = 0/1, sampled at the WFI.  In VS-mode, VSSI is
-    // pending and enabled in vsie but masked by vsstatus.SIE = 0
+    // WFI in VS-mode and VU-mode with mstatus.TW and hstatus.VTW = 0/1, sampled at the WFI
     wfi : coverpoint ins.current.insn {
         bins wfi = {WFI};
     }
@@ -230,11 +245,7 @@ covergroup InterruptsH_hs_cg with function sample(ins_t ins);
         bins zero = {0};
         bins one  = {1};
     }
-    vssi_masked : coverpoint {ins.prev.csr[CSR_VSSTATUS][1], ins.prev.csr[CSR_HIDELEG][2], ins.prev.csr[CSR_HVIP][2],
-                              ins.prev.csr[CSR_HIE][2]} {
-        bins masked = {4'b0111};
-    }
-    cp_wfi_vs: cross priv_mode_vs, wfi, mstatus_tw, hstatus_vtw, vssi_masked;
+    cp_wfi_vs: cross priv_mode_vs, wfi, mstatus_tw, hstatus_vtw;
     cp_wfi_vu: cross priv_mode_vu, wfi, mstatus_tw, hstatus_vtw;
 endgroup
 

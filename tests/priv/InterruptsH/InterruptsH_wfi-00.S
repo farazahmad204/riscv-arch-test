@@ -31,8 +31,8 @@ RVTEST_BEGIN
 
 /////////////////////////////////
 // cp_wfi_vs
-//   Execute WFI in VS-mode with mstatus.TW = 0/1 and hstatus.VTW = 0/1, with VSSI pending and
-//   enabled in vsie but masked by vsstatus.SIE = 0
+//   Execute WFI in VS-mode with mstatus.TW = 0/1 and hstatus.VTW = 0/1.  With TW = VTW = 0, VSSI is
+//   pending and enabled in vsie but masked by vsstatus.SIE = 0
 /////////////////////////////////
   LI(x8, MIP_VSSIP)
   csrw hideleg, x8
@@ -45,14 +45,8 @@ RVTEST_BEGIN
   csrc hstatus, x8
   LI(x8, MSTATUS_TW)
   # T-SBI call to execute instruction: csrc mstatus, x8
-  # Copy rs1 (x8) to a1 for T-SBI call
   mv a1, x8
-
-  # Copy rs2 (x0) to a2 for T-SBI call
-  mv a2, x0
-
-  LI(a0, 0x3005b073) # csrc mstatus, x8
-  ecall # T-SBI call to execute instruction at suitable privilege level
+  RVTEST_TSBI_CSR_ACCESS TSBI_CSR_CLEAR(CSR_MSTATUS)
   RVTEST_TSBI_GOTO_VSMODE
 InterruptsH_hs_cg_cp_wfi_vs_tw0_vtw0:
   wfi
@@ -64,7 +58,7 @@ InterruptsH_hs_cg_cp_wfi_vs_tw0_vtw0:
   LI(x8, MIP_VSSIP)
   csrw hideleg, x8
   csrw hie, x8
-  LI(x8, MIP_VSSIP)
+  LI(x8, 0)
   csrw hvip, x8
   LI(x8, SSTATUS_SIE)
   csrc vsstatus, x8
@@ -72,19 +66,11 @@ InterruptsH_hs_cg_cp_wfi_vs_tw0_vtw0:
   csrs hstatus, x8
   LI(x8, MSTATUS_TW)
   # T-SBI call to execute instruction: csrc mstatus, x8
-  # Copy rs1 (x8) to a1 for T-SBI call
   mv a1, x8
-
-  # Copy rs2 (x0) to a2 for T-SBI call
-  mv a2, x0
-
-  LI(a0, 0x3005b073) # csrc mstatus, x8
-  ecall # T-SBI call to execute instruction at suitable privilege level
-  RVTEST_OPTIONAL_TRAP(x8, x15, InterruptsH_hs_cg_cp_wfi_vs_tw0_vtw1, CAUSE_VIRTUAL_INSTRUCTION)
+  RVTEST_TSBI_CSR_ACCESS TSBI_CSR_CLEAR(CSR_MSTATUS)
   RVTEST_TSBI_GOTO_VSMODE
 InterruptsH_hs_cg_cp_wfi_vs_tw0_vtw1:
   wfi
-  RVTEST_OPTIONAL_TRAP_END(x8)
   RVTEST_TSBI_GOTO_SMODE
   csrr x8, hip
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
@@ -93,7 +79,7 @@ InterruptsH_hs_cg_cp_wfi_vs_tw0_vtw1:
   LI(x8, MIP_VSSIP)
   csrw hideleg, x8
   csrw hie, x8
-  LI(x8, MIP_VSSIP)
+  LI(x8, 0)
   csrw hvip, x8
   LI(x8, SSTATUS_SIE)
   csrc vsstatus, x8
@@ -101,19 +87,11 @@ InterruptsH_hs_cg_cp_wfi_vs_tw0_vtw1:
   csrc hstatus, x8
   LI(x8, MSTATUS_TW)
   # T-SBI call to execute instruction: csrs mstatus, x8
-  # Copy rs1 (x8) to a1 for T-SBI call
   mv a1, x8
-
-  # Copy rs2 (x0) to a2 for T-SBI call
-  mv a2, x0
-
-  LI(a0, 0x3005a073) # csrs mstatus, x8
-  ecall # T-SBI call to execute instruction at suitable privilege level
-  RVTEST_OPTIONAL_TRAP(x8, x15, InterruptsH_hs_cg_cp_wfi_vs_tw1_vtw0, CAUSE_ILLEGAL_INSTRUCTION)
+  RVTEST_TSBI_CSR_ACCESS TSBI_CSR_SET(CSR_MSTATUS)
   RVTEST_TSBI_GOTO_VSMODE
 InterruptsH_hs_cg_cp_wfi_vs_tw1_vtw0:
   wfi
-  RVTEST_OPTIONAL_TRAP_END(x8)
   RVTEST_TSBI_GOTO_SMODE
   csrr x8, hip
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
@@ -122,7 +100,7 @@ InterruptsH_hs_cg_cp_wfi_vs_tw1_vtw0:
   LI(x8, MIP_VSSIP)
   csrw hideleg, x8
   csrw hie, x8
-  LI(x8, MIP_VSSIP)
+  LI(x8, 0)
   csrw hvip, x8
   LI(x8, SSTATUS_SIE)
   csrc vsstatus, x8
@@ -130,19 +108,11 @@ InterruptsH_hs_cg_cp_wfi_vs_tw1_vtw0:
   csrs hstatus, x8
   LI(x8, MSTATUS_TW)
   # T-SBI call to execute instruction: csrs mstatus, x8
-  # Copy rs1 (x8) to a1 for T-SBI call
   mv a1, x8
-
-  # Copy rs2 (x0) to a2 for T-SBI call
-  mv a2, x0
-
-  LI(a0, 0x3005a073) # csrs mstatus, x8
-  ecall # T-SBI call to execute instruction at suitable privilege level
-  RVTEST_OPTIONAL_TRAP(x8, x15, InterruptsH_hs_cg_cp_wfi_vs_tw1_vtw1, CAUSE_ILLEGAL_INSTRUCTION)
+  RVTEST_TSBI_CSR_ACCESS TSBI_CSR_SET(CSR_MSTATUS)
   RVTEST_TSBI_GOTO_VSMODE
 InterruptsH_hs_cg_cp_wfi_vs_tw1_vtw1:
   wfi
-  RVTEST_OPTIONAL_TRAP_END(x8)
   RVTEST_TSBI_GOTO_SMODE
   csrr x8, hip
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
@@ -165,14 +135,8 @@ InterruptsH_hs_cg_cp_wfi_vs_tw1_vtw1:
   csrc hstatus, x8
   LI(x8, MSTATUS_TW)
   # T-SBI call to execute instruction: csrc mstatus, x8
-  # Copy rs1 (x8) to a1 for T-SBI call
   mv a1, x8
-
-  # Copy rs2 (x0) to a2 for T-SBI call
-  mv a2, x0
-
-  LI(a0, 0x3005b073) # csrc mstatus, x8
-  ecall # T-SBI call to execute instruction at suitable privilege level
+  RVTEST_TSBI_CSR_ACCESS TSBI_CSR_CLEAR(CSR_MSTATUS)
   RVTEST_TSBI_GOTO_VUMODE
 InterruptsH_hs_cg_cp_wfi_vu_tw0_vtw0:
   wfi
@@ -192,14 +156,8 @@ InterruptsH_hs_cg_cp_wfi_vu_tw0_vtw0:
   csrs hstatus, x8
   LI(x8, MSTATUS_TW)
   # T-SBI call to execute instruction: csrc mstatus, x8
-  # Copy rs1 (x8) to a1 for T-SBI call
   mv a1, x8
-
-  # Copy rs2 (x0) to a2 for T-SBI call
-  mv a2, x0
-
-  LI(a0, 0x3005b073) # csrc mstatus, x8
-  ecall # T-SBI call to execute instruction at suitable privilege level
+  RVTEST_TSBI_CSR_ACCESS TSBI_CSR_CLEAR(CSR_MSTATUS)
   RVTEST_TSBI_GOTO_VUMODE
 InterruptsH_hs_cg_cp_wfi_vu_tw0_vtw1:
   wfi
@@ -219,19 +177,11 @@ InterruptsH_hs_cg_cp_wfi_vu_tw0_vtw1:
   csrc hstatus, x8
   LI(x8, MSTATUS_TW)
   # T-SBI call to execute instruction: csrs mstatus, x8
-  # Copy rs1 (x8) to a1 for T-SBI call
   mv a1, x8
-
-  # Copy rs2 (x0) to a2 for T-SBI call
-  mv a2, x0
-
-  LI(a0, 0x3005a073) # csrs mstatus, x8
-  ecall # T-SBI call to execute instruction at suitable privilege level
-  RVTEST_OPTIONAL_TRAP(x8, x15, InterruptsH_hs_cg_cp_wfi_vu_tw1_vtw0, CAUSE_ILLEGAL_INSTRUCTION)
+  RVTEST_TSBI_CSR_ACCESS TSBI_CSR_SET(CSR_MSTATUS)
   RVTEST_TSBI_GOTO_VUMODE
 InterruptsH_hs_cg_cp_wfi_vu_tw1_vtw0:
   wfi
-  RVTEST_OPTIONAL_TRAP_END(x8)
   RVTEST_TSBI_GOTO_SMODE
   csrr x8, hip
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
@@ -248,19 +198,11 @@ InterruptsH_hs_cg_cp_wfi_vu_tw1_vtw0:
   csrs hstatus, x8
   LI(x8, MSTATUS_TW)
   # T-SBI call to execute instruction: csrs mstatus, x8
-  # Copy rs1 (x8) to a1 for T-SBI call
   mv a1, x8
-
-  # Copy rs2 (x0) to a2 for T-SBI call
-  mv a2, x0
-
-  LI(a0, 0x3005a073) # csrs mstatus, x8
-  ecall # T-SBI call to execute instruction at suitable privilege level
-  RVTEST_OPTIONAL_TRAP(x8, x15, InterruptsH_hs_cg_cp_wfi_vu_tw1_vtw1, CAUSE_ILLEGAL_INSTRUCTION)
+  RVTEST_TSBI_CSR_ACCESS TSBI_CSR_SET(CSR_MSTATUS)
   RVTEST_TSBI_GOTO_VUMODE
 InterruptsH_hs_cg_cp_wfi_vu_tw1_vtw1:
   wfi
-  RVTEST_OPTIONAL_TRAP_END(x8)
   RVTEST_TSBI_GOTO_SMODE
   csrr x8, hip
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
@@ -268,14 +210,8 @@ InterruptsH_hs_cg_cp_wfi_vu_tw1_vtw1:
   csrw hvip, zero
   LI(x8, MSTATUS_TW)
   # T-SBI call to execute instruction: csrc mstatus, x8
-  # Copy rs1 (x8) to a1 for T-SBI call
   mv a1, x8
-
-  # Copy rs2 (x0) to a2 for T-SBI call
-  mv a2, x0
-
-  LI(a0, 0x3005b073) # csrc mstatus, x8
-  ecall # T-SBI call to execute instruction at suitable privilege level
+  RVTEST_TSBI_CSR_ACCESS TSBI_CSR_CLEAR(CSR_MSTATUS)
   LI(x8, HSTATUS_VTW)
   csrc hstatus, x8
   csrw hideleg, zero
@@ -291,14 +227,14 @@ RVTEST_DATA_BEGIN
 
 
 // Testcase strings
-InterruptsH_hs_cg_cp_wfi_vs_tw0_vtw0_str: .string "\"test: 711; cg: InterruptsH_hs_cg; cp: cp_wfi_vs; bin: tw0_vtw0\""
-InterruptsH_hs_cg_cp_wfi_vs_tw0_vtw1_str: .string "\"test: 712; cg: InterruptsH_hs_cg; cp: cp_wfi_vs; bin: tw0_vtw1\""
-InterruptsH_hs_cg_cp_wfi_vs_tw1_vtw0_str: .string "\"test: 713; cg: InterruptsH_hs_cg; cp: cp_wfi_vs; bin: tw1_vtw0\""
-InterruptsH_hs_cg_cp_wfi_vs_tw1_vtw1_str: .string "\"test: 714; cg: InterruptsH_hs_cg; cp: cp_wfi_vs; bin: tw1_vtw1\""
-InterruptsH_hs_cg_cp_wfi_vu_tw0_vtw0_str: .string "\"test: 715; cg: InterruptsH_hs_cg; cp: cp_wfi_vu; bin: tw0_vtw0\""
-InterruptsH_hs_cg_cp_wfi_vu_tw0_vtw1_str: .string "\"test: 716; cg: InterruptsH_hs_cg; cp: cp_wfi_vu; bin: tw0_vtw1\""
-InterruptsH_hs_cg_cp_wfi_vu_tw1_vtw0_str: .string "\"test: 717; cg: InterruptsH_hs_cg; cp: cp_wfi_vu; bin: tw1_vtw0\""
-InterruptsH_hs_cg_cp_wfi_vu_tw1_vtw1_str: .string "\"test: 718; cg: InterruptsH_hs_cg; cp: cp_wfi_vu; bin: tw1_vtw1\""
+InterruptsH_hs_cg_cp_wfi_vs_tw0_vtw0_str: .string "\"test: 713; cg: InterruptsH_hs_cg; cp: cp_wfi_vs; bin: tw0_vtw0\""
+InterruptsH_hs_cg_cp_wfi_vs_tw0_vtw1_str: .string "\"test: 714; cg: InterruptsH_hs_cg; cp: cp_wfi_vs; bin: tw0_vtw1\""
+InterruptsH_hs_cg_cp_wfi_vs_tw1_vtw0_str: .string "\"test: 715; cg: InterruptsH_hs_cg; cp: cp_wfi_vs; bin: tw1_vtw0\""
+InterruptsH_hs_cg_cp_wfi_vs_tw1_vtw1_str: .string "\"test: 716; cg: InterruptsH_hs_cg; cp: cp_wfi_vs; bin: tw1_vtw1\""
+InterruptsH_hs_cg_cp_wfi_vu_tw0_vtw0_str: .string "\"test: 717; cg: InterruptsH_hs_cg; cp: cp_wfi_vu; bin: tw0_vtw0\""
+InterruptsH_hs_cg_cp_wfi_vu_tw0_vtw1_str: .string "\"test: 718; cg: InterruptsH_hs_cg; cp: cp_wfi_vu; bin: tw0_vtw1\""
+InterruptsH_hs_cg_cp_wfi_vu_tw1_vtw0_str: .string "\"test: 719; cg: InterruptsH_hs_cg; cp: cp_wfi_vu; bin: tw1_vtw0\""
+InterruptsH_hs_cg_cp_wfi_vu_tw1_vtw1_str: .string "\"test: 720; cg: InterruptsH_hs_cg; cp: cp_wfi_vu; bin: tw1_vtw1\""
 
 // End of test data section and model specific data
 RVTEST_DATA_END

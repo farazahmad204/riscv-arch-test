@@ -34,6 +34,7 @@ from testgen.priv.extensions.sv.page_tables import (
     PteFlags,
     SvMode,
     create_page_mapping,
+    guest_table_data,
     write_pte,
 )
 from testgen.priv.registry import add_priv_test_generator
@@ -141,11 +142,11 @@ def case(
             stage,
             va or stage.data_va,
             level,
-            destination=f"x{c.gva}",
+            destination=c.gva,
             physical_address=offset,
             physical_address_is_label=offset == DATA,
             merge_sv32_base_page=True,
-            scratch=f"x{addr}",
+            scratch=addr,
         ),
     ]
     if check:
@@ -294,7 +295,8 @@ def _vs_cases(test_data: TestData, c: Chunk, mode: str) -> list[str]:
 
 
 def _g_cases(test_data: TestData, c: Chunk, mode: str) -> list[str]:
-    """G-stage PTE cases at each level, reached through a VS-stage identity superpage."""
+    """G-stage PTE cases at each level, reached through a VS-stage identity superpage, and a non-leaf G-stage PTE that
+    points at the page of the access-fault region, with an index there that selects a PTE inside the region."""
     g = c.g
     user = PteFlags(user=True)
     fault = "store guest-page fault"
@@ -330,20 +332,10 @@ def _g_cases(test_data: TestData, c: Chunk, mode: str) -> list[str]:
                 ),
             ]
         )
-    return lines
-
-
-def _g_walk_cases(test_data: TestData, c: Chunk, mode: str) -> list[str]:
-    """A non-leaf G-stage PTE that points at the page of the access-fault region, at each level, with an index there
-    that selects a PTE inside the region."""
-    # TODO: remove when riscv/sail-riscv#1970 merges: Sail writes htval = GPA >> 2 on these access faults, and
-    # hypervisor.adoc requires htval = 0
-    g = c.g
-    lines = []
     for level in range(g.levels - 2, -1, -1):
         ptes = [
-            *vs_identity(test_data, c, mode),
-            *mapping(test_data, g, level, PteFlags(user=True)),
+            *identity,
+            *mapping(test_data, g, level, user),
             *_pte(test_data, g, level + 1, PteFlags.nonleaf(), g.data_va, g.access_fault_pte_address()),
         ]
         lines.extend(
@@ -375,10 +367,9 @@ _SECTIONS = (
     (
         "g",
         "cp_g_pte, cp_g_pa",
-        "Each G-stage PTE, and a G-stage leaf at a faulting supervisor physical address",
+        "Each G-stage PTE, and G-stage leaf and non-leaf PTEs at faulting supervisor physical addresses",
         _g_cases,
     ),
-    ("g_walk", "cp_g_pa", "A non-leaf G-stage PTE at a faulting supervisor physical address", _g_walk_cases),
 )
 
 
@@ -419,7 +410,7 @@ def make_chunk(
         )
     test_data.int_regs.return_register(chunk.gva)
     tc.code.extend(body)
-    tc.raw_data.extend(_DATA_REGION)
+    tc.raw_data.extend([*_DATA_REGION, *guest_table_data()])
     return test_data.end_test_chunk()
 
 

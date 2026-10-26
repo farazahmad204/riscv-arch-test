@@ -27,6 +27,7 @@
 // Set up test environment and declare main entry point
 RVTEST_BEGIN
 
+#ifdef SMSTATEEN_SUPPORTED
 #if __riscv_xlen == 64
   RVTEST_TSBI_CSR_WRITE(CSR_MSTATEEN0, MSTATEEN_HSTATEEN | MSTATEEN0_HENVCFG | MSTATEEN0_JVT)
 #else
@@ -35,6 +36,7 @@ RVTEST_BEGIN
 #endif
 #ifdef ZFINX_SUPPORTED
   RVTEST_TSBI_CSR_SET(CSR_MSTATEEN0, MSTATEEN0_FCSR)
+#endif
 #endif
 #if __riscv_xlen == 64
   LI(x8, HSTATEEN_SSTATEEN | HSTATEEN0_SENVCFG | HSTATEEN0_JVT | HSTATEEN0_FCSR)
@@ -1884,14 +1886,14 @@ SmstateenH_hs_cg_cp_hs_hstateen0_roz_hstateen0h_clr_bit_63:
 # CSR Walk Tests for hstateen0
   csrr x6, hstateen0      # Save CSR
   LI(x15, 1)              # 1 in bit 0
-  LI(x8, 16267001854062231550)    # Load mask (0xe1bffffffffffffe)
+  LI(x8, 16411117042138087422)    # Load mask (0xe3bffffffffffffe)
   LI(x9, -1)             # x9 = all 1s
   csrw hstateen0, zero    # clear all bits
   csrs hstateen0, x15     # set walking 1 in column 0
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_0:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_0, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_0_str)
   slli x15, x15, 1      # walk the 1
@@ -1900,7 +1902,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_0:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_1:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_1, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_1_str)
   slli x15, x15, 1      # walk the 1
@@ -1909,7 +1911,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_1:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_2:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_2, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_2_str)
   slli x15, x15, 1      # walk the 1
@@ -1918,7 +1920,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_2:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_3:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_3, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_3_str)
   slli x15, x15, 1      # walk the 1
@@ -1927,7 +1929,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_3:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_4:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_4, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_4_str)
   slli x15, x15, 1      # walk the 1
@@ -1936,7 +1938,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_4:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_5:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_5, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_5_str)
   slli x15, x15, 1      # walk the 1
@@ -1945,7 +1947,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_5:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_6:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_6, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_6_str)
   slli x15, x15, 1      # walk the 1
@@ -1954,7 +1956,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_6:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_7:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_7, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_7_str)
   slli x15, x15, 1      # walk the 1
@@ -1963,7 +1965,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_7:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_8:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_8_str)
   slli x15, x15, 1      # walk the 1
@@ -1972,7 +1974,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_8:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_9:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_9, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_9_str)
   slli x15, x15, 1      # walk the 1
@@ -1981,7 +1983,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_9:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_10:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_10, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_10_str)
   slli x15, x15, 1      # walk the 1
@@ -1990,7 +1992,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_10:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_11:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_11, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_11_str)
   slli x15, x15, 1      # walk the 1
@@ -1999,7 +2001,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_11:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_12:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_12, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_12_str)
   slli x15, x15, 1      # walk the 1
@@ -2008,7 +2010,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_12:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_13:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_13, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_13_str)
   slli x15, x15, 1      # walk the 1
@@ -2017,7 +2019,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_13:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_14:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_14_str)
   slli x15, x15, 1      # walk the 1
@@ -2026,7 +2028,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_14:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_15:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_15, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_15_str)
   slli x15, x15, 1      # walk the 1
@@ -2035,7 +2037,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_15:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_16:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_16, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_16_str)
   slli x15, x15, 1      # walk the 1
@@ -2044,7 +2046,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_16:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_17:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_17, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_17_str)
   slli x15, x15, 1      # walk the 1
@@ -2053,7 +2055,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_17:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_18:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_18, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_18_str)
   slli x15, x15, 1      # walk the 1
@@ -2062,7 +2064,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_18:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_19:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_19, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_19_str)
   slli x15, x15, 1      # walk the 1
@@ -2071,7 +2073,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_19:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_20:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_20, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_20_str)
   slli x15, x15, 1      # walk the 1
@@ -2080,7 +2082,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_20:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_21:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_21, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_21_str)
   slli x15, x15, 1      # walk the 1
@@ -2089,7 +2091,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_21:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_22:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_22, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_22_str)
   slli x15, x15, 1      # walk the 1
@@ -2098,7 +2100,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_22:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_23:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_23, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_23_str)
   slli x15, x15, 1      # walk the 1
@@ -2107,7 +2109,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_23:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_24:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_24, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_24_str)
   slli x15, x15, 1      # walk the 1
@@ -2116,7 +2118,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_24:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_25:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_25, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_25_str)
   slli x15, x15, 1      # walk the 1
@@ -2125,7 +2127,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_25:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_26:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_26, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_26_str)
   slli x15, x15, 1      # walk the 1
@@ -2134,7 +2136,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_26:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_27:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_27, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_27_str)
   slli x15, x15, 1      # walk the 1
@@ -2143,7 +2145,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_27:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_28:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_28, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_28_str)
   slli x15, x15, 1      # walk the 1
@@ -2152,7 +2154,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_28:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_29:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_29, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_29_str)
   slli x15, x15, 1      # walk the 1
@@ -2161,7 +2163,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_29:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_30:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_30, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_30_str)
   slli x15, x15, 1      # walk the 1
@@ -2170,7 +2172,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_30:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_31:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_31, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_31_str)
   slli x15, x15, 1      # walk the 1
@@ -2181,7 +2183,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_31:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_32:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_32, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_32_str)
   slli x15, x15, 1      # walk the 1
@@ -2190,7 +2192,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_32:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_33:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_33, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_33_str)
   slli x15, x15, 1      # walk the 1
@@ -2199,7 +2201,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_33:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_34:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_34, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_34_str)
   slli x15, x15, 1      # walk the 1
@@ -2208,7 +2210,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_34:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_35:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_35, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_35_str)
   slli x15, x15, 1      # walk the 1
@@ -2217,7 +2219,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_35:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_36:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_36, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_36_str)
   slli x15, x15, 1      # walk the 1
@@ -2226,7 +2228,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_36:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_37:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_37, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_37_str)
   slli x15, x15, 1      # walk the 1
@@ -2235,7 +2237,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_37:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_38:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_38, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_38_str)
   slli x15, x15, 1      # walk the 1
@@ -2244,7 +2246,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_38:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_39:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_39, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_39_str)
   slli x15, x15, 1      # walk the 1
@@ -2253,7 +2255,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_39:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_40:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_40, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_40_str)
   slli x15, x15, 1      # walk the 1
@@ -2262,7 +2264,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_40:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_41:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_41, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_41_str)
   slli x15, x15, 1      # walk the 1
@@ -2271,7 +2273,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_41:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_42:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_42, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_42_str)
   slli x15, x15, 1      # walk the 1
@@ -2280,7 +2282,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_42:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_43:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_43, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_43_str)
   slli x15, x15, 1      # walk the 1
@@ -2289,7 +2291,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_43:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_44:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_44, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_44_str)
   slli x15, x15, 1      # walk the 1
@@ -2298,7 +2300,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_44:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_45:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_45, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_45_str)
   slli x15, x15, 1      # walk the 1
@@ -2307,7 +2309,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_45:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_46:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_46, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_46_str)
   slli x15, x15, 1      # walk the 1
@@ -2316,7 +2318,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_46:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_47:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_47, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_47_str)
   slli x15, x15, 1      # walk the 1
@@ -2325,7 +2327,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_47:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_48:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_48, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_48_str)
   slli x15, x15, 1      # walk the 1
@@ -2334,7 +2336,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_48:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_49:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_49, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_49_str)
   slli x15, x15, 1      # walk the 1
@@ -2343,7 +2345,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_49:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_50:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_50, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_50_str)
   slli x15, x15, 1      # walk the 1
@@ -2352,7 +2354,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_50:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_51:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_51, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_51_str)
   slli x15, x15, 1      # walk the 1
@@ -2361,7 +2363,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_51:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_52:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_52, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_52_str)
   slli x15, x15, 1      # walk the 1
@@ -2370,7 +2372,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_52:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_53:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_53, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_53_str)
   slli x15, x15, 1      # walk the 1
@@ -2379,7 +2381,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_53:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_54:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_54, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_54_str)
   slli x15, x15, 1      # walk the 1
@@ -2388,7 +2390,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_54:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_55:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_55, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_55_str)
   slli x15, x15, 1      # walk the 1
@@ -2397,7 +2399,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_55:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_56:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_56, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_56_str)
   slli x15, x15, 1      # walk the 1
@@ -2406,7 +2408,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_56:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_57:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_57, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_57_str)
   slli x15, x15, 1      # walk the 1
@@ -2415,7 +2417,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_57:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_58:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_58, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_58_str)
   slli x15, x15, 1      # walk the 1
@@ -2424,7 +2426,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_58:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_59:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_59, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_59_str)
   slli x15, x15, 1      # walk the 1
@@ -2433,7 +2435,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_59:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_60:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_60, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_60_str)
   slli x15, x15, 1      # walk the 1
@@ -2442,7 +2444,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_60:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_61:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_61, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_61_str)
   slli x15, x15, 1      # walk the 1
@@ -2451,7 +2453,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_61:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_62:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_62, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_62_str)
   slli x15, x15, 1      # walk the 1
@@ -2460,7 +2462,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_62:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_63:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_63, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_63_str)
   slli x15, x15, 1      # walk the 1
@@ -2472,7 +2474,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_set_bit_63:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_0:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_0, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_0_str)
   slli x15, x15, 1      # walk the 1
@@ -2481,7 +2483,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_0:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_1:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_1, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_1_str)
   slli x15, x15, 1      # walk the 1
@@ -2490,7 +2492,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_1:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_2:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_2, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_2_str)
   slli x15, x15, 1      # walk the 1
@@ -2499,7 +2501,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_2:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_3:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_3, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_3_str)
   slli x15, x15, 1      # walk the 1
@@ -2508,7 +2510,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_3:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_4:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_4, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_4_str)
   slli x15, x15, 1      # walk the 1
@@ -2517,7 +2519,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_4:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_5:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_5, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_5_str)
   slli x15, x15, 1      # walk the 1
@@ -2526,7 +2528,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_5:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_6:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_6, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_6_str)
   slli x15, x15, 1      # walk the 1
@@ -2535,7 +2537,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_6:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_7:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_7, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_7_str)
   slli x15, x15, 1      # walk the 1
@@ -2544,7 +2546,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_7:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_8:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_8_str)
   slli x15, x15, 1      # walk the 1
@@ -2553,7 +2555,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_8:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_9:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_9, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_9_str)
   slli x15, x15, 1      # walk the 1
@@ -2562,7 +2564,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_9:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_10:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_10, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_10_str)
   slli x15, x15, 1      # walk the 1
@@ -2571,7 +2573,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_10:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_11:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_11, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_11_str)
   slli x15, x15, 1      # walk the 1
@@ -2580,7 +2582,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_11:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_12:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_12, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_12_str)
   slli x15, x15, 1      # walk the 1
@@ -2589,7 +2591,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_12:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_13:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_13, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_13_str)
   slli x15, x15, 1      # walk the 1
@@ -2598,7 +2600,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_13:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_14:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_14_str)
   slli x15, x15, 1      # walk the 1
@@ -2607,7 +2609,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_14:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_15:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_15, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_15_str)
   slli x15, x15, 1      # walk the 1
@@ -2616,7 +2618,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_15:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_16:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_16, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_16_str)
   slli x15, x15, 1      # walk the 1
@@ -2625,7 +2627,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_16:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_17:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_17, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_17_str)
   slli x15, x15, 1      # walk the 1
@@ -2634,7 +2636,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_17:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_18:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_18, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_18_str)
   slli x15, x15, 1      # walk the 1
@@ -2643,7 +2645,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_18:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_19:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_19, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_19_str)
   slli x15, x15, 1      # walk the 1
@@ -2652,7 +2654,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_19:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_20:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_20, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_20_str)
   slli x15, x15, 1      # walk the 1
@@ -2661,7 +2663,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_20:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_21:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_21, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_21_str)
   slli x15, x15, 1      # walk the 1
@@ -2670,7 +2672,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_21:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_22:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_22, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_22_str)
   slli x15, x15, 1      # walk the 1
@@ -2679,7 +2681,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_22:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_23:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_23, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_23_str)
   slli x15, x15, 1      # walk the 1
@@ -2688,7 +2690,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_23:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_24:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_24, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_24_str)
   slli x15, x15, 1      # walk the 1
@@ -2697,7 +2699,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_24:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_25:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_25, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_25_str)
   slli x15, x15, 1      # walk the 1
@@ -2706,7 +2708,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_25:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_26:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_26, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_26_str)
   slli x15, x15, 1      # walk the 1
@@ -2715,7 +2717,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_26:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_27:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_27, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_27_str)
   slli x15, x15, 1      # walk the 1
@@ -2724,7 +2726,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_27:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_28:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_28, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_28_str)
   slli x15, x15, 1      # walk the 1
@@ -2733,7 +2735,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_28:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_29:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_29, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_29_str)
   slli x15, x15, 1      # walk the 1
@@ -2742,7 +2744,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_29:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_30:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_30, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_30_str)
   slli x15, x15, 1      # walk the 1
@@ -2751,7 +2753,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_30:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_31:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_31, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_31_str)
   slli x15, x15, 1      # walk the 1
@@ -2762,7 +2764,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_31:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_32:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_32, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_32_str)
   slli x15, x15, 1      # walk the 1
@@ -2771,7 +2773,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_32:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_33:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_33, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_33_str)
   slli x15, x15, 1      # walk the 1
@@ -2780,7 +2782,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_33:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_34:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_34, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_34_str)
   slli x15, x15, 1      # walk the 1
@@ -2789,7 +2791,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_34:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_35:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_35, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_35_str)
   slli x15, x15, 1      # walk the 1
@@ -2798,7 +2800,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_35:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_36:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_36, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_36_str)
   slli x15, x15, 1      # walk the 1
@@ -2807,7 +2809,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_36:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_37:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_37, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_37_str)
   slli x15, x15, 1      # walk the 1
@@ -2816,7 +2818,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_37:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_38:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_38, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_38_str)
   slli x15, x15, 1      # walk the 1
@@ -2825,7 +2827,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_38:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_39:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_39, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_39_str)
   slli x15, x15, 1      # walk the 1
@@ -2834,7 +2836,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_39:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_40:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_40, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_40_str)
   slli x15, x15, 1      # walk the 1
@@ -2843,7 +2845,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_40:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_41:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_41, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_41_str)
   slli x15, x15, 1      # walk the 1
@@ -2852,7 +2854,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_41:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_42:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_42, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_42_str)
   slli x15, x15, 1      # walk the 1
@@ -2861,7 +2863,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_42:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_43:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_43, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_43_str)
   slli x15, x15, 1      # walk the 1
@@ -2870,7 +2872,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_43:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_44:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_44, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_44_str)
   slli x15, x15, 1      # walk the 1
@@ -2879,7 +2881,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_44:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_45:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_45, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_45_str)
   slli x15, x15, 1      # walk the 1
@@ -2888,7 +2890,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_45:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_46:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_46, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_46_str)
   slli x15, x15, 1      # walk the 1
@@ -2897,7 +2899,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_46:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_47:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_47, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_47_str)
   slli x15, x15, 1      # walk the 1
@@ -2906,7 +2908,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_47:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_48:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_48, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_48_str)
   slli x15, x15, 1      # walk the 1
@@ -2915,7 +2917,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_48:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_49:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_49, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_49_str)
   slli x15, x15, 1      # walk the 1
@@ -2924,7 +2926,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_49:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_50:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_50, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_50_str)
   slli x15, x15, 1      # walk the 1
@@ -2933,7 +2935,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_50:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_51:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_51, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_51_str)
   slli x15, x15, 1      # walk the 1
@@ -2942,7 +2944,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_51:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_52:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_52, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_52_str)
   slli x15, x15, 1      # walk the 1
@@ -2951,7 +2953,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_52:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_53:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_53, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_53_str)
   slli x15, x15, 1      # walk the 1
@@ -2960,7 +2962,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_53:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_54:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_54, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_54_str)
   slli x15, x15, 1      # walk the 1
@@ -2969,7 +2971,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_54:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_55:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_55, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_55_str)
   slli x15, x15, 1      # walk the 1
@@ -2978,7 +2980,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_55:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_56:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_56, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_56_str)
   slli x15, x15, 1      # walk the 1
@@ -2987,7 +2989,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_56:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_57:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_57, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_57_str)
   slli x15, x15, 1      # walk the 1
@@ -2996,7 +2998,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_57:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_58:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_58, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_58_str)
   slli x15, x15, 1      # walk the 1
@@ -3005,7 +3007,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_58:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_59:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_59, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_59_str)
   slli x15, x15, 1      # walk the 1
@@ -3014,7 +3016,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_59:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_60:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_60, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_60_str)
   slli x15, x15, 1      # walk the 1
@@ -3023,7 +3025,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_60:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_61:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_61, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_61_str)
   slli x15, x15, 1      # walk the 1
@@ -3032,7 +3034,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_61:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_62:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_62, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_62_str)
   slli x15, x15, 1      # walk the 1
@@ -3041,7 +3043,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_62:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_63:
   # Read hstateen0 into x14, keep only bits specified by mask, and check against expected.
   csrr x14, hstateen0    # Read CSR
-  and x14, x14, x8    # keep only masked bits 0xe1bffffffffffffe
+  and x14, x14, x8    # keep only masked bits 0xe3bffffffffffffe
   # Check if x14 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_63, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_63_str)
   slli x15, x15, 1      # walk the 1
@@ -3053,14 +3055,14 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0_clr_bit_63:
 # CSR Walk Tests for hstateen0h
   csrr x6, hstateen0h      # Save CSR
   LI(x15, 1)              # 1 in bit 0
-  LI(x9, 3787456511)    # Load mask (0xe1bfffff)
+  LI(x9, 3821010943)    # Load mask (0xe3bfffff)
   LI(x13, -1)             # x13 = all 1s
   csrw hstateen0h, zero    # clear all bits
   csrs hstateen0h, x15     # set walking 1 in column 0
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_0:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_0, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_0_str)
   slli x15, x15, 1      # walk the 1
@@ -3069,7 +3071,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_0:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_1:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_1, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_1_str)
   slli x15, x15, 1      # walk the 1
@@ -3078,7 +3080,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_1:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_2:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_2, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_2_str)
   slli x15, x15, 1      # walk the 1
@@ -3087,7 +3089,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_2:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_3:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_3, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_3_str)
   slli x15, x15, 1      # walk the 1
@@ -3096,7 +3098,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_3:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_4:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_4, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_4_str)
   slli x15, x15, 1      # walk the 1
@@ -3105,7 +3107,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_4:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_5:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_5, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_5_str)
   slli x15, x15, 1      # walk the 1
@@ -3114,7 +3116,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_5:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_6:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_6, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_6_str)
   slli x15, x15, 1      # walk the 1
@@ -3123,7 +3125,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_6:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_7:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_7, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_7_str)
   slli x15, x15, 1      # walk the 1
@@ -3132,7 +3134,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_7:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_8:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_8_str)
   slli x15, x15, 1      # walk the 1
@@ -3141,7 +3143,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_8:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_9:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_9, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_9_str)
   slli x15, x15, 1      # walk the 1
@@ -3150,7 +3152,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_9:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_10:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_10, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_10_str)
   slli x15, x15, 1      # walk the 1
@@ -3159,7 +3161,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_10:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_11:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_11, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_11_str)
   slli x15, x15, 1      # walk the 1
@@ -3168,7 +3170,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_11:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_12:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_12, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_12_str)
   slli x15, x15, 1      # walk the 1
@@ -3177,7 +3179,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_12:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_13:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_13, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_13_str)
   slli x15, x15, 1      # walk the 1
@@ -3186,7 +3188,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_13:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_14:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_14_str)
   slli x15, x15, 1      # walk the 1
@@ -3195,7 +3197,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_14:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_15:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_15, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_15_str)
   slli x15, x15, 1      # walk the 1
@@ -3204,7 +3206,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_15:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_16:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_16, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_16_str)
   slli x15, x15, 1      # walk the 1
@@ -3213,7 +3215,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_16:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_17:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_17, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_17_str)
   slli x15, x15, 1      # walk the 1
@@ -3222,7 +3224,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_17:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_18:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_18, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_18_str)
   slli x15, x15, 1      # walk the 1
@@ -3231,7 +3233,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_18:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_19:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_19, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_19_str)
   slli x15, x15, 1      # walk the 1
@@ -3240,7 +3242,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_19:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_20:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_20, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_20_str)
   slli x15, x15, 1      # walk the 1
@@ -3249,7 +3251,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_20:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_21:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_21, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_21_str)
   slli x15, x15, 1      # walk the 1
@@ -3258,7 +3260,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_21:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_22:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_22, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_22_str)
   slli x15, x15, 1      # walk the 1
@@ -3267,7 +3269,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_22:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_23:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_23, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_23_str)
   slli x15, x15, 1      # walk the 1
@@ -3276,7 +3278,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_23:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_24:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_24, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_24_str)
   slli x15, x15, 1      # walk the 1
@@ -3285,7 +3287,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_24:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_25:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_25, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_25_str)
   slli x15, x15, 1      # walk the 1
@@ -3294,7 +3296,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_25:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_26:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_26, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_26_str)
   slli x15, x15, 1      # walk the 1
@@ -3303,7 +3305,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_26:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_27:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_27, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_27_str)
   slli x15, x15, 1      # walk the 1
@@ -3312,7 +3314,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_27:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_28:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_28, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_28_str)
   slli x15, x15, 1      # walk the 1
@@ -3321,7 +3323,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_28:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_29:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_29, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_29_str)
   slli x15, x15, 1      # walk the 1
@@ -3330,7 +3332,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_29:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_30:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_30, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_30_str)
   slli x15, x15, 1      # walk the 1
@@ -3339,7 +3341,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_30:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_31:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_31, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_31_str)
   slli x15, x15, 1      # walk the 1
@@ -3350,7 +3352,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_31:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_32:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_32, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_32_str)
   slli x15, x15, 1      # walk the 1
@@ -3359,7 +3361,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_32:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_33:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_33, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_33_str)
   slli x15, x15, 1      # walk the 1
@@ -3368,7 +3370,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_33:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_34:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_34, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_34_str)
   slli x15, x15, 1      # walk the 1
@@ -3377,7 +3379,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_34:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_35:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_35, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_35_str)
   slli x15, x15, 1      # walk the 1
@@ -3386,7 +3388,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_35:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_36:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_36, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_36_str)
   slli x15, x15, 1      # walk the 1
@@ -3395,7 +3397,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_36:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_37:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_37, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_37_str)
   slli x15, x15, 1      # walk the 1
@@ -3404,7 +3406,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_37:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_38:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_38, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_38_str)
   slli x15, x15, 1      # walk the 1
@@ -3413,7 +3415,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_38:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_39:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_39, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_39_str)
   slli x15, x15, 1      # walk the 1
@@ -3422,7 +3424,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_39:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_40:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_40, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_40_str)
   slli x15, x15, 1      # walk the 1
@@ -3431,7 +3433,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_40:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_41:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_41, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_41_str)
   slli x15, x15, 1      # walk the 1
@@ -3440,7 +3442,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_41:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_42:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_42, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_42_str)
   slli x15, x15, 1      # walk the 1
@@ -3449,7 +3451,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_42:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_43:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_43, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_43_str)
   slli x15, x15, 1      # walk the 1
@@ -3458,7 +3460,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_43:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_44:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_44, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_44_str)
   slli x15, x15, 1      # walk the 1
@@ -3467,7 +3469,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_44:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_45:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_45, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_45_str)
   slli x15, x15, 1      # walk the 1
@@ -3476,7 +3478,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_45:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_46:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_46, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_46_str)
   slli x15, x15, 1      # walk the 1
@@ -3485,7 +3487,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_46:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_47:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_47, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_47_str)
   slli x15, x15, 1      # walk the 1
@@ -3494,7 +3496,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_47:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_48:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_48, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_48_str)
   slli x15, x15, 1      # walk the 1
@@ -3503,7 +3505,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_48:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_49:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_49, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_49_str)
   slli x15, x15, 1      # walk the 1
@@ -3512,7 +3514,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_49:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_50:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_50, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_50_str)
   slli x15, x15, 1      # walk the 1
@@ -3521,7 +3523,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_50:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_51:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_51, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_51_str)
   slli x15, x15, 1      # walk the 1
@@ -3530,7 +3532,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_51:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_52:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_52, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_52_str)
   slli x15, x15, 1      # walk the 1
@@ -3539,7 +3541,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_52:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_53:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_53, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_53_str)
   slli x15, x15, 1      # walk the 1
@@ -3548,7 +3550,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_53:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_54:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_54, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_54_str)
   slli x15, x15, 1      # walk the 1
@@ -3557,7 +3559,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_54:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_55:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_55, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_55_str)
   slli x15, x15, 1      # walk the 1
@@ -3566,7 +3568,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_55:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_56:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_56, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_56_str)
   slli x15, x15, 1      # walk the 1
@@ -3575,7 +3577,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_56:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_57:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_57, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_57_str)
   slli x15, x15, 1      # walk the 1
@@ -3584,7 +3586,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_57:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_58:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_58, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_58_str)
   slli x15, x15, 1      # walk the 1
@@ -3593,7 +3595,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_58:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_59:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_59, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_59_str)
   slli x15, x15, 1      # walk the 1
@@ -3602,7 +3604,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_59:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_60:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_60, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_60_str)
   slli x15, x15, 1      # walk the 1
@@ -3611,7 +3613,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_60:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_61:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_61, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_61_str)
   slli x15, x15, 1      # walk the 1
@@ -3620,7 +3622,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_61:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_62:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_62, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_62_str)
   slli x15, x15, 1      # walk the 1
@@ -3629,7 +3631,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_62:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_63:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_63, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_63_str)
   slli x15, x15, 1      # walk the 1
@@ -3641,7 +3643,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_set_bit_63:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_0:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_0, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_0_str)
   slli x15, x15, 1      # walk the 1
@@ -3650,7 +3652,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_0:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_1:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_1, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_1_str)
   slli x15, x15, 1      # walk the 1
@@ -3659,7 +3661,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_1:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_2:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_2, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_2_str)
   slli x15, x15, 1      # walk the 1
@@ -3668,7 +3670,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_2:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_3:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_3, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_3_str)
   slli x15, x15, 1      # walk the 1
@@ -3677,7 +3679,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_3:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_4:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_4, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_4_str)
   slli x15, x15, 1      # walk the 1
@@ -3686,7 +3688,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_4:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_5:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_5, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_5_str)
   slli x15, x15, 1      # walk the 1
@@ -3695,7 +3697,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_5:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_6:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_6, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_6_str)
   slli x15, x15, 1      # walk the 1
@@ -3704,7 +3706,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_6:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_7:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_7, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_7_str)
   slli x15, x15, 1      # walk the 1
@@ -3713,7 +3715,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_7:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_8:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_8_str)
   slli x15, x15, 1      # walk the 1
@@ -3722,7 +3724,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_8:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_9:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_9, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_9_str)
   slli x15, x15, 1      # walk the 1
@@ -3731,7 +3733,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_9:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_10:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_10, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_10_str)
   slli x15, x15, 1      # walk the 1
@@ -3740,7 +3742,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_10:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_11:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_11, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_11_str)
   slli x15, x15, 1      # walk the 1
@@ -3749,7 +3751,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_11:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_12:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_12, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_12_str)
   slli x15, x15, 1      # walk the 1
@@ -3758,7 +3760,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_12:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_13:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_13, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_13_str)
   slli x15, x15, 1      # walk the 1
@@ -3767,7 +3769,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_13:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_14:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_14, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_14_str)
   slli x15, x15, 1      # walk the 1
@@ -3776,7 +3778,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_14:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_15:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_15, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_15_str)
   slli x15, x15, 1      # walk the 1
@@ -3785,7 +3787,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_15:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_16:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_16, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_16_str)
   slli x15, x15, 1      # walk the 1
@@ -3794,7 +3796,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_16:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_17:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_17, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_17_str)
   slli x15, x15, 1      # walk the 1
@@ -3803,7 +3805,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_17:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_18:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_18, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_18_str)
   slli x15, x15, 1      # walk the 1
@@ -3812,7 +3814,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_18:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_19:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_19, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_19_str)
   slli x15, x15, 1      # walk the 1
@@ -3821,7 +3823,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_19:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_20:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_20, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_20_str)
   slli x15, x15, 1      # walk the 1
@@ -3830,7 +3832,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_20:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_21:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_21, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_21_str)
   slli x15, x15, 1      # walk the 1
@@ -3839,7 +3841,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_21:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_22:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_22, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_22_str)
   slli x15, x15, 1      # walk the 1
@@ -3848,7 +3850,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_22:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_23:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_23, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_23_str)
   slli x15, x15, 1      # walk the 1
@@ -3857,7 +3859,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_23:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_24:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_24, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_24_str)
   slli x15, x15, 1      # walk the 1
@@ -3866,7 +3868,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_24:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_25:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_25, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_25_str)
   slli x15, x15, 1      # walk the 1
@@ -3875,7 +3877,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_25:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_26:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_26, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_26_str)
   slli x15, x15, 1      # walk the 1
@@ -3884,7 +3886,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_26:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_27:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_27, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_27_str)
   slli x15, x15, 1      # walk the 1
@@ -3893,7 +3895,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_27:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_28:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_28, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_28_str)
   slli x15, x15, 1      # walk the 1
@@ -3902,7 +3904,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_28:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_29:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_29, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_29_str)
   slli x15, x15, 1      # walk the 1
@@ -3911,7 +3913,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_29:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_30:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_30, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_30_str)
   slli x15, x15, 1      # walk the 1
@@ -3920,7 +3922,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_30:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_31:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_31, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_31_str)
   slli x15, x15, 1      # walk the 1
@@ -3931,7 +3933,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_31:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_32:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_32, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_32_str)
   slli x15, x15, 1      # walk the 1
@@ -3940,7 +3942,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_32:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_33:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_33, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_33_str)
   slli x15, x15, 1      # walk the 1
@@ -3949,7 +3951,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_33:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_34:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_34, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_34_str)
   slli x15, x15, 1      # walk the 1
@@ -3958,7 +3960,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_34:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_35:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_35, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_35_str)
   slli x15, x15, 1      # walk the 1
@@ -3967,7 +3969,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_35:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_36:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_36, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_36_str)
   slli x15, x15, 1      # walk the 1
@@ -3976,7 +3978,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_36:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_37:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_37, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_37_str)
   slli x15, x15, 1      # walk the 1
@@ -3985,7 +3987,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_37:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_38:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_38, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_38_str)
   slli x15, x15, 1      # walk the 1
@@ -3994,7 +3996,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_38:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_39:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_39, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_39_str)
   slli x15, x15, 1      # walk the 1
@@ -4003,7 +4005,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_39:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_40:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_40, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_40_str)
   slli x15, x15, 1      # walk the 1
@@ -4012,7 +4014,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_40:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_41:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_41, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_41_str)
   slli x15, x15, 1      # walk the 1
@@ -4021,7 +4023,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_41:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_42:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_42, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_42_str)
   slli x15, x15, 1      # walk the 1
@@ -4030,7 +4032,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_42:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_43:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_43, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_43_str)
   slli x15, x15, 1      # walk the 1
@@ -4039,7 +4041,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_43:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_44:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_44, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_44_str)
   slli x15, x15, 1      # walk the 1
@@ -4048,7 +4050,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_44:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_45:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_45, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_45_str)
   slli x15, x15, 1      # walk the 1
@@ -4057,7 +4059,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_45:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_46:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_46, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_46_str)
   slli x15, x15, 1      # walk the 1
@@ -4066,7 +4068,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_46:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_47:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_47, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_47_str)
   slli x15, x15, 1      # walk the 1
@@ -4075,7 +4077,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_47:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_48:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_48, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_48_str)
   slli x15, x15, 1      # walk the 1
@@ -4084,7 +4086,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_48:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_49:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_49, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_49_str)
   slli x15, x15, 1      # walk the 1
@@ -4093,7 +4095,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_49:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_50:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_50, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_50_str)
   slli x15, x15, 1      # walk the 1
@@ -4102,7 +4104,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_50:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_51:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_51, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_51_str)
   slli x15, x15, 1      # walk the 1
@@ -4111,7 +4113,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_51:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_52:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_52, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_52_str)
   slli x15, x15, 1      # walk the 1
@@ -4120,7 +4122,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_52:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_53:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_53, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_53_str)
   slli x15, x15, 1      # walk the 1
@@ -4129,7 +4131,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_53:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_54:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_54, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_54_str)
   slli x15, x15, 1      # walk the 1
@@ -4138,7 +4140,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_54:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_55:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_55, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_55_str)
   slli x15, x15, 1      # walk the 1
@@ -4147,7 +4149,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_55:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_56:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_56, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_56_str)
   slli x15, x15, 1      # walk the 1
@@ -4156,7 +4158,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_56:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_57:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_57, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_57_str)
   slli x15, x15, 1      # walk the 1
@@ -4165,7 +4167,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_57:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_58:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_58, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_58_str)
   slli x15, x15, 1      # walk the 1
@@ -4174,7 +4176,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_58:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_59:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_59, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_59_str)
   slli x15, x15, 1      # walk the 1
@@ -4183,7 +4185,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_59:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_60:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_60, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_60_str)
   slli x15, x15, 1      # walk the 1
@@ -4192,7 +4194,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_60:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_61:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_61, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_61_str)
   slli x15, x15, 1      # walk the 1
@@ -4201,7 +4203,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_61:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_62:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_62, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_62_str)
   slli x15, x15, 1      # walk the 1
@@ -4210,7 +4212,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_62:
 SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_63:
   # Read hstateen0h into x8, keep only bits specified by mask, and check against expected.
   csrr x8, hstateen0h    # Read CSR
-  and x8, x8, x9    # keep only masked bits 0xe1bfffff
+  and x8, x8, x9    # keep only masked bits 0xe3bfffff
   # Check if x8 contains the expected result. x2 is the signature ptr, x5 is the link ptr, x4 is a temp reg.
   RVTEST_SIGUPD(x2, x5, x4, x8, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_63, SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_63_str)
   slli x15, x15, 1      # walk the 1
@@ -4218,6 +4220,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_63:
 
   csrw hstateen0h, x6            # restore CSR
 #endif
+#ifdef SMSTATEEN_SUPPORTED
 #if __riscv_xlen == 64
   RVTEST_TSBI_CSR_WRITE(CSR_MSTATEEN0, MSTATEEN_HSTATEEN | MSTATEEN0_HENVCFG | MSTATEEN0_JVT)
 #else
@@ -4226,6 +4229,7 @@ SmstateenH_hs_cg_cp_hs_hstateen0_walk_hstateen0h_clr_bit_63:
 #endif
 #ifdef ZFINX_SUPPORTED
   RVTEST_TSBI_CSR_SET(CSR_MSTATEEN0, MSTATEEN0_FCSR)
+#endif
 #endif
 #if __riscv_xlen == 64
   LI(x15, HSTATEEN_SSTATEEN | HSTATEEN0_SENVCFG | HSTATEEN0_JVT | HSTATEEN0_FCSR)

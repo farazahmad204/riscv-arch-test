@@ -20,6 +20,13 @@ normative_rule_definitions:
   # Each bit of hedeleg shall be either writable or read-only zero.
   - name: hedeleg_acc
     coverpoint: ["H_hscsr_cg/{cp_hcsr_access, cp_hcsrwalk}/hedeleg"]
+  # Many bits of hedeleg are required specifically to be writable or zero; bit 0 must be writable if IALIGN=32.
+  - names: [hedeleg_bits_required, hedeleg_bit0_ialign32]
+    coverpoint:
+      [
+        "H_hscsr_cg/cp_hcsr_access/hedeleg",
+        "HSm_mcsr_cg/cp_hcsr_access/hedeleg",
+      ]
   - name: hedeleg_img
     coverpoint: ["H_hscsr_cg/{cp_hcsr_access, cp_hcsrwalk}/hedeleg"]
   # Register hideleg is an HSXLEN-bit read/write register, formatted as shown in
@@ -379,8 +386,8 @@ normative_rule_definitions:
   - names: [H_csrs_hs_not_vs, H_vscsrs_acc_vs, H_cause_virtual_instruction]
     coverpoint: ["H_vscsr_cg/cp_hcsr_virtualinstructionfault"]
 
-  # High-half H CSRs are illegal when XLEN > 32
-  - names: [H_illegal_high_half]
+  # For RV64, the addresses of all standard high-half CSRs are reserved (the hypervisor high-half CSRs)
+  - names: [Zicsr_high_half_rv64_rsv]
     coverpoint: ["H_vscsr_cg/cp_illegalupper", "H_ucsr_cg/cp_illegalupper"]
 
   # H and S CSRs are inaccessible from U-mode
@@ -521,50 +528,36 @@ normative_rule_definitions:
   # we use the term HSXLEN to refer to the effective XLEN when executing in HS-mode
   - name: hsxlen
     coverpoint:
-      [
-        "Not tested: XLEN-changing VSXL and UXL are out of scope, so tests run with VSXLEN = HSXLEN = MXLEN",
-      ]
+      ["Out of scope: tests run with VSXLEN = VUXLEN = HSXLEN = MXLEN"]
   # VSXLEN to refer to the effective XLEN when executing in VS-mode.
   - name: vsxlen
     coverpoint:
-      [
-        "Not tested: XLEN-changing VSXL and UXL are out of scope, so tests run with VSXLEN = HSXLEN = MXLEN",
-      ]
+      ["Out of scope: tests run with VSXLEN = VUXLEN = HSXLEN = MXLEN"]
   # The VSXL field controls the effective XLEN for VS-mode (known as VSXLEN), which may
   # differ from the XLEN for HS-mode (HSXLEN).
   - name: hstatus_vsxl_op
     coverpoint:
-      [
-        "Not tested: XLEN-changing VSXL and UXL are out of scope, so tests run with VSXLEN = HSXLEN = MXLEN",
-      ]
+      ["Out of scope: tests run with VSXLEN = VUXLEN = HSXLEN = MXLEN"]
   # When HSXLEN=32, the VSXL field does not exist, and VSXLEN=32.
   - name: hstatus_vsxl_32
     coverpoint:
-      [
-        "Not tested: XLEN-changing VSXL and UXL are out of scope, so tests run with VSXLEN = HSXLEN = MXLEN",
-      ]
+      ["Out of scope: tests run with VSXLEN = VUXLEN = HSXLEN = MXLEN"]
   # When HSXLEN=64, VSXL is a WARL field that is encoded the same as the MXL field of
   # misa, shown in &lt;&lt;norm:misa_mxl_enc&gt;&gt;.
   - name: hstatus_vsxl_64
     coverpoint:
-      [
-        "Not tested: XLEN-changing VSXL and UXL are out of scope, so tests run with VSXLEN = HSXLEN = MXLEN",
-      ]
+      ["Out of scope: tests run with VSXLEN = VUXLEN = HSXLEN = MXLEN"]
   # In particular, an implementation may make VSXL be a read-only field whose value always
   # ensures that VSXLEN=HSXLEN.
   - name: vsxl_ro
     coverpoint:
-      [
-        "Not tested: XLEN-changing VSXL and UXL are out of scope, so tests run with VSXLEN = HSXLEN = MXLEN",
-      ]
+      ["Out of scope: tests run with VSXLEN = VUXLEN = HSXLEN = MXLEN"]
   # If HSXLEN is changed from 32 to a wider width, and if field VSXL is not restricted to
   # a single value, it gets the value corresponding to the widest supported width not
   # wider than the new HSXLEN.
   - name: hstatus_vsxl_change
     coverpoint:
-      [
-        "Not tested: XLEN-changing VSXL and UXL are out of scope, so tests run with VSXLEN = HSXLEN = MXLEN",
-      ]
+      ["Out of scope: tests run with VSXLEN = VUXLEN = HSXLEN = MXLEN"]
   # The UXL field controls the effective XLEN for VU-mode, which may differ from the XLEN
   # for VS-mode (VSXLEN). When VSXLEN=32, the UXL field does not exist, and VU-mode
   # XLEN=32. When VSXLEN=64, UXL is a WARL field that is encoded the same as the MXL field
@@ -572,17 +565,13 @@ normative_rule_definitions:
   # of field VSXL of hstatus, forcing VU-mode XLEN=VSXLEN.
   - name: vsstatus_uxl_op
     coverpoint:
-      [
-        "Not tested: XLEN-changing VSXL and UXL are out of scope, so tests run with VSXLEN = HSXLEN = MXLEN",
-      ]
+      ["Out of scope: tests run with VSXLEN = VUXLEN = HSXLEN = MXLEN"]
   # If VSXLEN is changed from 32 to a wider width, and if field UXL is not restricted to a
   # single value, it gets the value corresponding to the widest supported width not wider
   # than the new VSXLEN.
   - name: vsstatus_uxl_change
     coverpoint:
-      [
-        "Not tested: XLEN-changing VSXL and UXL are out of scope, so tests run with VSXLEN = HSXLEN = MXLEN",
-      ]
+      ["Out of scope: tests run with VSXLEN = VUXLEN = HSXLEN = MXLEN"]
 
   # hstatus.VSBE sets the endianness of VS-mode explicit accesses and of VS-level page-table accesses; it may be
   # read-only, and vsstatus.UBE may be a read-only copy of it
@@ -617,23 +606,11 @@ normative_rule_definitions:
         "Not tested: ordering of I/O and memory accesses is not observable in single-hart signature tests",
       ]
 
-  # henvcfg.LPE enables Zicfilp in VS-mode
-  - names: [henvcfg_lpe_op]
-    coverpoint:
-      ["TODO: landing-pad checks in VS-mode with henvcfg.LPE = 0 and 1"]
-
-  # Zicfilp adds vsstatus.SPELP, which holds the previous ELP on traps into VS-mode
-  - names: [vsstatus_spelp_op]
-    coverpoint:
-      [
-        "TODO: check vsstatus.SPELP after traps into VS-mode and after sret in VS-mode with Zicfilp enabled",
-      ]
-
   # henvcfg.SSE activates Zicfiss in VS-mode
   - names: [henvcfg_sse_op]
     coverpoint:
       [
-        "TODO: shadow-stack instructions in VS-mode and VU-mode with henvcfg.SSE = 0 and 1",
+        "Not tested: shadow-stack instructions in VS-mode and VU-mode with henvcfg.SSE = 0 and 1 belong to ZicfissH, which has no tests yet",
       ]
 
   # With Ssnpm, henvcfg.PMM enables pointer masking for VS-mode; PMM is read-only zero without Ssnpm and on RV32
@@ -644,19 +621,19 @@ normative_rule_definitions:
   - names: [henvcfg_dte_op]
     coverpoint:
       [
-        "TODO: write vsstatus.SDT and take a trap into VS-mode with henvcfg.DTE = 0 and 1",
+        "Not tested: writing vsstatus.SDT and trapping into VS-mode with henvcfg.DTE = 0 and 1 belong to SsdbltrpH, which has no tests yet",
       ]
 
   # Ssdbltrp adds vsstatus.SDT for double traps in VS-mode
   - names: [vsstatus_sdt_op]
     coverpoint:
       [
-        "TODO: take traps into VS-mode with vsstatus.SDT = 0 and 1 and check the double trap",
+        "Not tested: traps into VS-mode with vsstatus.SDT = 0 and 1 belong to SsdbltrpH, which has no tests yet",
       ]
 
   # With Ssdbltrp, sret from HS-mode into VU-mode and sret in VS-mode clear vsstatus.SDT
   - names: [sret_dt]
     coverpoint:
       [
-        "TODO: check vsstatus.SDT after sret from HS-mode into VU-mode and after sret in VS-mode",
+        "Not tested: vsstatus.SDT after sret belongs to SsdbltrpH, which has no tests yet",
       ]
