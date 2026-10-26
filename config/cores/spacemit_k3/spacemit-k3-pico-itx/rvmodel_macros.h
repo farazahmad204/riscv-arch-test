@@ -37,6 +37,8 @@
 // K3 M-mode CLINT
 #define K3_MSIP_ADDRESS     0xF1810000
 #define K3_MTIME_ADDRESS    0xF181BFF8
+// ACT act4 (#2864) requires mtime whenever machine timer interrupts are implemented.
+#define RVMODEL_MTIME_ADDRESS K3_MTIME_ADDRESS
 #define K3_MTIMECMP_ADDRESS 0xF1814000
 
 #define RVMODEL_DATA_SECTION \
@@ -162,5 +164,27 @@ rvmodel_runner_mtvec:                    \
 #define RVMODEL_CLR_SEXT_INT(_R1, _R2)
 #define RVMODEL_SET_SSW_INT(_R1, _R2)
 #define RVMODEL_CLR_SSW_INT(_R1, _R2)
+
+##### Sscofpmf #####
+
+// Counter and event for the Sscofpmf tests (required by ACT act4 since the Sscofpmf suites).
+// SpacemiT X100 (K3): event 0x06 counts loads; source: the K3 Pico-ITX device tree in the board's u-boot.itb maps the SBI L1D read-access event (0x10000) to 0x06 on counters 3-16 (riscv,event-to-mhpmevent).
+// Documented, not yet measured on the board. The Sail reference counts EV_FENCE for the same
+// selector (sail.json event_selectors) and the reference build triggers it with a fence.
+#define RVMODEL_HPM_COUNTER 3
+#define RVMODEL_MHPMEVENT_VAL 0x06
+#define RVMODEL_MHPMEVENT_CODE(_R1, _R2) \
+    lw _R2, 0(_R1)
+
+##### Guest External Interrupts #####
+
+// The X100 has 7 guest interrupt files (GEILEN 7, hgeie writable 0xfe), so ACT needs a way to set
+// and clear an hgeip bit. On the K3 that is a write to a guest interrupt file of the AIA IMSIC, whose
+// addresses and set-up are not researched or tested on the board yet. Until then these raise
+// nothing: the Sail reference build replaces them with its own (sail_macros.h), and on the board the
+// few tests that need a guest external interrupt fail visibly instead of blocking every build.
+// TODO: implement via the K3 IMSIC guest interrupt files and verify on the board.
+#define RVMODEL_SET_GUEST_EXT_INT(_GEI, _R1, _R2)
+#define RVMODEL_CLR_GUEST_EXT_INT(_GEI, _R1, _R2)
 
 #endif // _RVMODEL_MACROS_H

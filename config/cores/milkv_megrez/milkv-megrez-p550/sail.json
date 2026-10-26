@@ -2,7 +2,8 @@
   "base": {
     "xlen": 64,
     "E": false,
-    // Sail 0.15: hpmcounter/hpmevent widths, mcountinhibit, self-write increment.
+    // Sail 0.15/0.16 (ACT act4 sync, 2026-10-22): HPM widths and the self-write increment keep
+    // the Sail 0.14.1 behavior; mcountinhibit covers CY, IR and the writable HPM counters.
     "hpmcounter_width_bits": 64,
     "hpmevent_width_bits": 56,
     "hpmcounter_increments_in_self_hpmevent_write": false,
@@ -103,6 +104,9 @@
     "privileged_isa_version": "Privileged_ISA_1_12"
   },
   "memory": {
+    "invalid_physical_address": {
+      "None": null
+    },
     "physaddr_bits": 41,
     "asidlen": 0,
     "vmidlen": 0,
@@ -293,7 +297,16 @@
     ]
   },
   "platform": {
-    "event_selectors": [],
+    // Sscofpmf: the board's selector 0x200 (RVMODEL_MHPMEVENT_VAL) counts fences in Sail.
+    "event_selectors": [
+      {
+        "event": "EV_FENCE",
+        "selector": {
+          "len": 64,
+          "value": "0x200"
+        }
+      }
+    ],
     "vendorid": 1161,
     "archid": 9223372036854775816,
     "impid": 102892581,
@@ -333,9 +346,87 @@
     "max_time_to_wait": 200
   },
   "extensions": {
-    // Sail 0.15 extension blocks (C: misa mutability; the others not implemented).
+    // Sail 0.15/0.16 extension blocks (C: misa mutability; the others are not implemented or not tested).
     "C": { "mutable_misa": false },
-    "Sdtrig": {"supported": false, "num_triggers": 16, "breakpoint_reentrancy": "Use_interrupt_enables", "mcontext": {"supported": true}, "hcontext": {"supported": true}, "scontext": {"supported": true}, "icount": {"supported": true, "count_hardwired_one": false, "self_write_sets_pending": true}, "etrigger": {"supported": true, "supported_exceptions": {"len": "xlen", "value": "0x0000_0000_00fd_bfff"}}, "itrigger": {"supported": true, "supported_interrupts": {"len": "xlen", "value": "0x0000_0000_0000_3eee"}}},
+    // Sdtrig not tested on this board; block from cvw-rv64gc (Sail 0.16 layout).
+    "Sdtrig": {
+      "supported": false,
+      // `breakpoint_reentrancy` must be one of the below strings:
+      // . `Use_tcontrol`: use the `mte` and `mpte` bits in the `tcontrol` CSR (this also makes the `tcontrol` CSR available)
+      // . `Use_interrupt_enables`: use `mstatus.MIE` and the `SIE` bits in `sstatus` and `vsstatus`
+      // . `No_reentrancy_support`: no specific support for reentrancy
+      // Note: `Use_tcontrol` hardwires medeleg[3] to 0, which breaks the
+      // `sbreak` test in `riscv-tests`.
+      "breakpoint_reentrancy": "No_reentrancy_support",
+      "etrigger": {
+        "supported": false,
+        // A bit set to 1 in this value specifies that the
+        // corresponding exception is supported by the trigger.
+        // Triggers for reserved exceptions are not supported.  This
+        // value is ignored when `etrigger` is not supported.
+        "supported_exceptions": { "len": "xlen", "value": "0" }
+      },
+      "hcontext": { "supported": false },
+      // Triggers
+      "icount": {
+        "supported": false,
+        "count_hardwired_one": false,
+        // Whether a `tdata1` write to an `icount` trigger with
+        // `count`=1 also makes it pending when that write's instruction
+        // matches the trigger.
+        "self_write_sets_pending": false
+      },
+      "itrigger": {
+        "supported": false,
+        // A bit set to 1 in this value specifies that the
+        // corresponding interrupt is supported by the trigger.
+        // Triggers for reserved interrupts are not supported.  This
+        // value is ignored when `itrigger` is not supported.
+        "supported_interrupts": { "len": "xlen", "value": "0" }
+      },
+      "mcontrol6": {
+        "supported": false,
+        // If `mcontrol6` is supported, this value needs to be in the range
+        // 0 < `maskmax6` < XLEN.
+        "maskmax6": 63,
+        // Whether an address selection matches all the accessed addresses.
+        // If set to `false`, it matches only the lowest address.
+        "address_select_matches_all_addresses": true,
+        // Maximum length of a chain. This cannot exceed the number of
+        // triggers.  A value of 0 implies chains are not supported.
+        "max_chain_length": 4
+      },
+      "textra": {
+        // Which context matches are supported. Writes of unsupported
+        // `mhselect` and `sselect` values are legalized to 0 (ignore).
+        "mhselect": {
+          // Values 1, 4 and 5, match on `mcontext`. Requires the
+          // `mcontext` CSR. Values 1 and 5 also require H.
+          "mcontext_match": false,
+          // Values 2 and 6, match on the VMID in `hgatp`. Requires H.
+          "vmid_match": false
+        },
+        "sselect": {
+          // Value 1, match on `scontext`. Requires S and the `scontext`
+          // CSR.
+          "scontext_match": false,
+          // Value 2, match on the ASID in `satp` or `vsatp`. Requires S.
+          "asid_match": true
+        },
+        // The number of implemented `mhvalue` and `svalue` bits. Bits
+        // above these are read only zero. At most 6 and 16 on RV32,
+        // 13 and 32 on RV64.
+        "mhvalue_len": 13,
+        "svalue_len": 32
+      },
+      // CSRs
+      "mcontext": { "supported": false },
+      // The number of supported triggers.  This has to be
+      // non-negative, and greater than 0 if Sdtrig is supported.
+      // The model does not support more than 16 triggers.
+      "num_triggers": 0,
+      "scontext": { "supported": false }
+    },
     "Smdbltrp": { "supported": false },
     "Ssdbltrp": { "supported": false },
     "Ssstrict": { "supported": false },
@@ -398,6 +489,8 @@
       "supported": true
     },
     "H": {
+      "mutable_misa": false,
+      "implicit_vs_pte_access_sets_gstage_d": false,
       "transformed_instruction": {
         "load_address_misaligned": false,
         "load_access_fault": false,
@@ -408,7 +501,6 @@
         "samo_page_fault": false,
         "samo_guest_page_fault": false
       },
-      "mutable_misa": false,
       "supported": true,
       "geilen": 0,
       "guest_page_fault_writes_htval": true,
@@ -743,8 +835,13 @@
       "Ssstateen": {
         "supported": false
       },
-      "C_readonly_zero": true,
-      "SE0_readonly_zero": false
+      // Sail 0.16 per-bit masks; C and SE0 keep the former C_readonly_zero/SE0_readonly_zero.
+      "mstateen0": {"SE0": "CSRBit_Writable", "ENVCFG": "CSRBit_ReadOnlyZero", "CONTEXT": "CSRBit_ReadOnlyZero", "P1P13": "CSRBit_ReadOnlyZero", "SRMCFG": "CSRBit_ReadOnlyZero", "FCSR": "CSRBit_ReadOnlyZero", "C": "CSRBit_ReadOnlyZero"},
+      "mstateen1": {"SE1": "CSRBit_Writable"},
+      "mstateen2": {"SE2": "CSRBit_Writable"},
+      "mstateen3": {"SE3": "CSRBit_Writable"},
+      "hstateen0": {"ENVCFG": "CSRBit_ReadOnlyZero", "CONTEXT": "CSRBit_ReadOnlyZero", "FCSR": "CSRBit_ReadOnlyZero", "C": "CSRBit_ReadOnlyZero"},
+      "sstateen0": {"FCSR": "CSRBit_ReadOnlyZero", "C": "CSRBit_ReadOnlyZero"}
     },
     "Ssqosid": {
       "supported": false,
