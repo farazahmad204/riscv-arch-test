@@ -489,19 +489,19 @@
       "supported": true
     },
     "Zicbop": {
-      "supported": false
+      "supported": true
     },
     "Zicboz": {
       "supported": true
     },
     "Ziccamoa": {
-      "supported": false
+      "supported": true
     },
     "Ziccamoc": {
       "supported": false
     },
     "Ziccif": {
-      "supported": false
+      "supported": true
     },
     "Zicclsm": {
       "supported": false
@@ -528,7 +528,7 @@
       "supported": true
     },
     "Zihintntl": {
-      "supported": false
+      "supported": true
     },
     "Zihintpause": {
       "supported": true
@@ -540,7 +540,7 @@
       "supported": false
     },
     "Zimop": {
-      "supported": false
+      "supported": true
     },
     "Zmmul": {
       "supported": true
@@ -561,7 +561,7 @@
       "supported": false
     },
     "Zawrs": {
-      "supported": false,
+      "supported": true,
       "nto": {
         "is_nop": false
       },
@@ -570,7 +570,7 @@
       }
     },
     "Zfa": {
-      "supported": false
+      "supported": true
     },
     "Zfbfmin": {
       "supported": false
@@ -597,10 +597,10 @@
       "supported": true
     },
     "Zcb": {
-      "supported": false
+      "supported": true
     },
     "Zcmop": {
-      "supported": false
+      "supported": true
     },
     "Zba": {
       "supported": true
@@ -670,13 +670,13 @@
       "supported": true
     },
     "Zvbb": {
-      "supported": false
+      "supported": true
     },
     "Zvbc": {
       "supported": false
     },
     "Zvkb": {
-      "supported": false
+      "supported": true
     },
     "Zvkg": {
       "supported": false
@@ -700,7 +700,7 @@
       "supported": true
     },
     "Ssccptr": {
-      "supported": false
+      "supported": true
     },
     "Sscofpmf": {
       "supported": true
@@ -712,7 +712,7 @@
       "supported": true
     },
     "Sscounterenw": {
-      "supported": false
+      "supported": true
     },
     "Shvsatpa": {
       "supported": true
@@ -733,13 +733,13 @@
       "supported": true
     },
     "Sstvala": {
-      "supported": false
+      "supported": true
     },
     "Sstvecd": {
       "supported": true
     },
     "Svade": {
-      "supported": false
+      "supported": true
     },
     "Svadu": {
       "supported": false
@@ -757,8 +757,8 @@
       "supported": false
     },
     "Ssnpm": {
-      "supported": false,
-      "supported_pmlen_7": false,
+      "supported": true,
+      "supported_pmlen_7": true,
       "supported_pmlen_16": false
     },
     "Smnpm": {
@@ -795,10 +795,10 @@
         "supported": false
       },
       "Ssstateen": {
-        "supported": false
+        "supported": true
       },
-      // Sail 0.16 per-bit masks; C and SE0 keep the former C_readonly_zero/SE0_readonly_zero.
-      "mstateen0": {"SE0": "CSRBit_ReadOnlyZero", "ENVCFG": "CSRBit_ReadOnlyZero", "CONTEXT": "CSRBit_ReadOnlyZero", "P1P13": "CSRBit_ReadOnlyZero", "SRMCFG": "CSRBit_ReadOnlyZero", "FCSR": "CSRBit_ReadOnlyZero", "C": "CSRBit_ReadOnlyZero"},
+      // Sail 0.16 per-bit masks. SE0 writable for Ssstateen (revision 2, as upstream sail-RVA23S64).
+      "mstateen0": {"SE0": "CSRBit_Writable", "ENVCFG": "CSRBit_ReadOnlyZero", "CONTEXT": "CSRBit_ReadOnlyZero", "P1P13": "CSRBit_ReadOnlyZero", "SRMCFG": "CSRBit_ReadOnlyZero", "FCSR": "CSRBit_ReadOnlyZero", "C": "CSRBit_ReadOnlyZero"},
       "mstateen1": {"SE1": "CSRBit_Writable"},
       "mstateen2": {"SE2": "CSRBit_Writable"},
       "mstateen3": {"SE3": "CSRBit_Writable"},

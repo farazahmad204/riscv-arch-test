@@ -9,10 +9,15 @@ description: >
   configuration and changed where the K3 was measured with the runner's CSR probe on the board
   (runner repo artifacts/onboarding/spacemit_k3_20261019/csr_probe_v6/): IDs, PMP entries,
   medeleg/mideleg masks, VLEN 256, Sv39 only, ASID 16, PMP granularity 4 KiB, PA 40 bits,
-  misaligned scalar loads in hardware. The extension list is still the K1's RVA22S64 subset:
-  the K3 implements the RVA23 set (device tree riscv,isa-extensions), and H is present but
-  misa.H = 0 at reset (writable); H and the RVA23 additions are left for a later revision.
-  Parameters not listed above are the K1's values and UNVERIFIED on the K3.
+  misaligned scalar loads in hardware. Revision 2 adds the RVA23S64 extensions the board's
+  device tree lists in riscv,isa-extensions (runner repo
+  artifacts/onboarding/spacemit_k3_20261019/observation.md), except the hypervisor ones: H is
+  present but misa.H = 0 at reset (writable), and the hypervisor jobs test it with their own
+  config. Za128rs follows from Za64rs. Not in the device tree, so not declared: Ziccrse,
+  Zic64b, Supm. Zicclsm (in the device tree) waits for a board check of misaligned vector
+  accesses: Sail rejects it while those raise access faults, the K1 value kept here.
+  Parameters not listed above are the K1's values, or for the revision 2 extensions upstream's
+  sail-RVA23S64 values, and UNVERIFIED on the K3.
 
 implemented_extensions:
   - { name: I,  version: "= 2.1" }
@@ -74,6 +79,29 @@ implemented_extensions:
   - { name: Svinval, version: "= 1.0.0" }
   - { name: Svnapot, version: "= 1.0.0" }
 
+  # --- RVA23 additions (revision 2; all in the K3 device tree riscv,isa-extensions) ---
+  - { name: Za64rs,       version: "= 1.0.0" }
+  - { name: Za128rs,      version: "= 1.0.0" }   # implied by Za64rs (UDB requires it)
+  - { name: Zawrs,        version: "= 1.0.0" }
+  - { name: Zcb,          version: "= 1.0.0" }
+  - { name: Zcmop,        version: "= 1.0.0" }
+  - { name: Zfa,          version: "= 1.0.0" }
+  - { name: Zicbop,       version: "= 1.0.0" }
+  - { name: Ziccamoa,     version: "= 1.0.0" }
+  - { name: Ziccif,       version: "= 1.0.0" }
+  - { name: Zihintntl,    version: "= 1.0.0" }
+  - { name: Zimop,        version: "= 1.0.0" }
+  - { name: Zvbb,         version: "= 1.0.0" }
+  - { name: Zvkb,         version: "= 1.0.0" }
+  - { name: Ssstateen,    version: "= 1.0.0" }
+  - { name: Ssccptr,      version: "= 1.0.0" }
+  - { name: Sscounterenw, version: "= 1.0.0" }
+  - { name: Ssnpm,        version: "= 1.0.0" }
+  - { name: Sstvala,      version: "= 1.0.0" }
+  - { name: Sstvecd,      version: "= 1.0.0" }
+  - { name: Ssu64xl,      version: "= 1.0.0" }
+  - { name: Svade,        version: "= 1.0.0" }
+
   # --- Vector subsets (spec-implied from V + F + D, VLEN=256) ---
   - { name: Zve32x,  version: "= 1.0.0" }
   - { name: Zve32f,  version: "= 1.0.0" }
@@ -113,6 +141,10 @@ params:
   # V params
   MUTABLE_MISA_V: false
   HW_MSTATUS_VS_DIRTY_UPDATE: precise
+  # Ssnpm params (upstream sail-RVA23S64 value, UNVERIFIED on the K3)
+  SUPPORTED_PMLEN_SSNPM: [0, 7]
+  # Zawrs params (upstream sail-RVA23S64 value, UNVERIFIED on the K3)
+  ZAWRS_NTO_IS_NOP: true
   # CBO params
   CACHE_BLOCK_SIZE: 64
   FORCE_UPGRADE_CBO_INVAL_TO_FLUSH: false
